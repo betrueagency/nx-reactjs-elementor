@@ -7,22 +7,22 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "(Required) name of the Reactjs elementor widget",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What name would you like to use for this elementor widget widget?"
     },
     "plugin": {
       "type": "string",
-      "description": "The name of the plugin where the widget will be generated.",
+      "description": "(Required) The name of the Wordpress plugin in which the widget will be generated.",
       "alias": "p",
       "$default": {
         "$source": "argv",
         "index": 1
       },
-      "x-prompt": "What is the name of the plugin for this widget?"
+      "x-prompt": "What is the name the wordpress plugin."
     },
     "tags": {
       "type": "string",
@@ -31,22 +31,22 @@
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed",
+      "description": "A directory where the project is placed (sub-directory in lib folder",
       "alias": "d"
     },
     "author": {
       "type": "string",
-      "description": "Plugin description that appear on wordpress plugin view",
+      "description": "Name of who makes this plugin.",
       "default": ""
     },
     "widgetDescription": {
       "type": "string",
-      "description": "Widget description",
+      "description": "Widget description that appear in wordpress plugin view.",
       "default": ""
     },
     "version": {
       "type": "string",
-      "description": "Plugin description that appear on wordpress plugin view",
+      "description": "Wordpress plugin version",
       "default": ""
     }
   },

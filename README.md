@@ -4,17 +4,24 @@ Nx plugin to generate Wordpress plugin that enrich Elementor with ReactJS widget
 
 ## Plugins
 
-| Plugin                                                                                   | Description                                                                           |
-| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [`@nx-plus/docusaurus`](https://github.com/ZachJW34/nx-plus/tree/master/libs/docusaurus) | First class support for [Docusaurus](https://v2.docusaurus.io/) in your Nx workspace. |
-| [`@nx-plus/nuxt`](https://github.com/ZachJW34/nx-plus/tree/master/libs/nuxt)             | First class support for [Nuxt](https://nuxtjs.org/) in your Nx workspace.             |
-| [`@nx-plus/vue`](https://github.com/ZachJW34/nx-plus/tree/master/libs/vue)               | First class support for [Vue](https://vuejs.org/) in your Nx workspace.               |
+| Plugin                                                                                                                    | Description                                             |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [`@betrue/nx-reactjs-elementor`](https://github.com/betrueagency/nx-reactjs-elementor/tree/main/e2e/elementor-plugin-e2e) | Generate Reactjs Elementor widgets in Wordpress plugin; |
 
-## Contributing
+## Usage
 
-See [CONTRIBUTING.md](https://github.com/ZachJW34/nx-plus/blob/master/CONTRIBUTING.md) for information on contributing.
+`@betrue/nx-reactjs-elementor:addWidget --name my-widget --plugin my-plugin`
+
+| Option                          | Description                                                                        |
+| ------------------------------- | -------------------------------------------------------                            |
+| `name`                          | (Required) name of the Reactjs elementor widget                                    |
+| `plugin`                        | (Required) The name of the Wordpress plugin in which the widget will be generated. |
+| `directory`                     | A directory where the project is placed (sub-directory in lib).                    |
+| `author`                        | Name of who makes this plugin.                                                     |
+| `tags`                          | Add tags to the project (used for linting).                                        |
+| `widgetDescription`             | Widget description that appear in Wordpress plugin view.                           |
+| `version`                       | Wordpress plugin version.                                                          |
 
 ## Maintainers
 
-- [Zachary Williams](https://github.com/ZachJW34)
-- [Bucky Maler](https://github.com/BuckyMaler)
+- [Selim Bensenouci](https://github.com/alizarion)
