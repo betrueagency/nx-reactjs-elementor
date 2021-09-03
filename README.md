@@ -10,6 +10,12 @@ Nx plugin to generate Wordpress plugin that enrich Elementor with ReactJS widget
 
 ## Usage
 
+Create a Wordpress plugin that will wrap all elementor widgets
+
+`@betrue/nx-reactjs-elementor:plugin my-plugin`
+
+Add a new widget to an existing plugin
+
 `@betrue/nx-reactjs-elementor:addWidget --name my-widget --plugin my-plugin`
 
 | Option                          | Description                                                                        |
