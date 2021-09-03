@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "projects": {
+    "elementor-plugin": {
+      "root": "packages/elementor-plugin",
+      "sourceRoot": "packages/elementor-plugin/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/elementor-plugin/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/elementor-plugin"],
+          "options": {
+            "jestConfig": "packages/elementor-plugin/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/elementor-plugin",
+            "tsConfig": "packages/elementor-plugin/tsconfig.lib.json",
+            "packageJson": "packages/elementor-plugin/package.json",
+            "main": "packages/elementor-plugin/src/index.ts",
+            "assets": [
+              "packages/elementor-plugin/*.md",
+              {
+                "input": "./packages/elementor-plugin/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/elementor-plugin/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/elementor-plugin",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/elementor-plugin",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "elementor-plugin-e2e": {
+      "root": "e2e/elementor-plugin-e2e",
+      "projectType": "application",
+      "sourceRoot": "e2e/elementor-plugin-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "elementor-plugin:build",
+            "npmPackageName": "@betrue/elementor-plugin",
+            "pluginOutputPath": "dist/packages/elementor-plugin",
+            "jestConfig": "e2e/elementor-plugin-e2e/jest.config.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}

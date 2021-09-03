@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "ElementorPlugin",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    },
+    "pluginDescription": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": ""
+    },
+    "pluginUri": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": ""
+    },
+    "author": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": ""
+    },
+    "copyright": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": ""
+    },
+    "license": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": ""
+    },
+    "link": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": ""
+    },
+    "minElementorVersion": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": "2.0.0"
+    },
+    "version": {
+      "type": "string",
+      "description": "Plugin description that appear on wordpress plugin view",
+      "default": "1.0.0"
+    }
+  },
+  "required": ["name"]
+}
