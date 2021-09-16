@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "betrue/elementor-plugin": ["packages/elementor-plugin/src/index.ts"]
+      "betrue/react-elementor": ["packages/react-elementor/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

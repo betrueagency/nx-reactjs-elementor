@@ -12,7 +12,7 @@ State between component is maintained using Redux.
 | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | [`@betrue/react-elementor`](https://github.com/betrueagency/nx-reactjs-elementor/tree/main/e2e/react-elementor-e2e)    | Generate Reactjs Elementor widgets in Wordpress plugin; |
 
-## Install
+## Install 
 
 Create a new nx workspace (if doesn't exist)
 
@@ -33,21 +33,21 @@ You can now serve the app to see the generated web component in action on [`http
 
     nx serve my-project
 
-If you have already installed docker and docker-compose you can try the elementor plugin in wordpress
+If you have already installed docker and docker-compose you can try the elementor plugin in wordpress 
 
     nx elementor my-project // to build the plugin     `      
 
-start docker-compose
+start docker-compose        
 
     docker-compose -f apps/my-project/src/docker-compose.yml up -d
 
-* open your browser on [`http://localhost:8000`](http://localhost:8000)
-* Login into Wordpress admin and [`install and enable elementor `](http://localhost:8000/wp-admin/plugins.php?s=elementor&plugin_status=all)
+* open your browser on [`http://localhost:8000`](http://localhost:8000)     
+* Login into Wordpress admin and [`install and enable elementor `](http://localhost:8000/wp-admin/plugins.php?s=elementor&plugin_status=all)    
 * Enable your custom [`elementor plugin`](http://localhost:8000/wp-admin/plugins.php)  plugin.
 * Create a [`new page`](http://localhost:8000/wp-admin/post-new.php?post_type=page) and choose edit with elementor.
 * Search and add `my-project-title` and `my-project-input` widgets to your page.
 
-### Add a new widget to an existing plugin: 
+### Add a new widget to an existing plugin
 
     nx g @betrue/nx-reactjs-elementor:addWidget --name my-widget --plugin my-plugin --attributes attr1,attr2
 
@@ -62,6 +62,6 @@ start docker-compose
 | `widgetDescription`             | Widget description that appear in Wordpress plugin view.                           |
 | `version`                       | Wordpress plugin version.                                                          |
 
-## Maintainer
+## Maintainers
 
 - [Selim Bensenouci](https://github.com/alizarion)

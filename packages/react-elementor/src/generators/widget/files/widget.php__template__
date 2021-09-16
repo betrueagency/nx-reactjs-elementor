@@ -1,0 +1,202 @@
+<?php
+/**
+ * DeviensPro class.
+ *
+ * @category   Class
+ * @package    <%= pluginClassName %>
+ * @subpackage WordPress
+ * @author     <%= author %>
+ * @since      1.0.0
+ * php version 7.3.9
+ */
+
+namespace <%= pluginClassName %>\Widgets;
+
+use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
+
+// Security Note: Blocks direct access to the plugin PHP files.
+defined('ABSPATH') || die();
+
+/**
+ * <%= pluginName %> widget class.
+ *
+ * @since 1.0.0
+ */
+class <%= constantName %> extends Widget_Base
+{
+    /**
+     * Class constructor.
+     *
+     * @param array $data Widget data.
+     * @param array $args Widget arguments.
+     */
+    public function __construct($data = array(), $args = null)
+    {
+        parent::__construct($data, $args);
+
+        #wp_register_style(' <%= pluginFileName %>-styles-vendors', plugins_url('assets/css/2.f87fbcaa.chunk.css', <%= pluginConstantName %>));
+        #wp_register_style('<%= pluginFileName %>-styles-main', plugins_url('assets/css/main.6fdcdd19.chunk.css', <%= pluginConstantName %>));
+
+    }
+
+    public function get_style_depends()
+    {
+        return []; //[ '<%= pluginFileName %>-styles-vendors','<%= pluginFileName %>-styles-main' ];
+    }
+
+    public function get_script_depends()
+    {
+        return ['<%= pluginFileName %>-script-vendor',
+            '<%= pluginFileName %>-script-main',
+            '<%= pluginFileName %>-script-runtime'];
+    }
+
+    /**
+     * Retrieve the widget name.
+     *
+     * @return string Widget name.
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     */
+    public function get_name()
+    {
+        return '<%= fileName %>';
+    }
+
+    /**
+     * Retrieve the widget title.
+     *
+     * @return string Widget title.
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     */
+    public function get_title()
+    {
+        return __('<%= name %>', 'elementor-<%= pluginFileName %>');
+    }
+
+    /**
+     * Retrieve the widget icon.
+     *
+     * @return string Widget icon.
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     */
+    public function get_icon()
+    {
+        return 'fa';
+    }
+
+    /**
+     * Retrieve the list of categories the widget belongs to.
+     *
+     * Used to determine where to display the widget in the editor.
+     *
+     * Note that currently Elementor supports only one category.
+     * When multiple categories passed, Elementor uses the first one.
+     *
+     * @return array Widget categories.
+     * @since 1.0.0
+     *
+     * @access public
+     *
+     */
+    public function get_categories()
+    {
+        return array('<%= pluginFileName %>-category');
+    }
+
+    /**
+     * Register the widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @since 1.0.0
+     *
+     * @access protected
+     */
+    protected function _register_controls()
+    {
+        $this->start_controls_section(
+            'section_content',
+            array(
+                'label' => __( 'Content', 'elementor-<%= pluginFileName %>' ),
+            )
+        );
+
+       <% attributes.forEach(function(attribute){ %>
+
+            $this->add_control(
+                '<%=attribute%>',
+                array(
+                    'label' => __('<%=attribute%> label', 'elementor-<%= pluginFileName %>'),
+                    'type' => Controls_Manager::TEXT,
+                    'default' => __('My cool <%=attribute%>', 'elementor-<%= pluginFileName %>'),
+                )
+            );
+         <% }); %>
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Render the widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @since 1.0.0
+     *
+     * @access protected
+     */
+    protected function render()
+    {
+        $settings = $this->get_settings_for_display();
+        $this->add_render_attribute(
+            '<%= fileName %>-wrapper',
+            [
+                 <% attributes.forEach(function(attribute){ %>
+                     '<%=attribute%>' => wp_kses( $settings['<%=attribute%>'], array() ),
+                 <% }); %>
+            ]
+        );
+        ?>
+
+        <<%= fileName %> <?php echo $this->get_render_attribute_string( '<%= fileName %>-wrapper' ); ?>></<%= fileName %>>
+        <?php
+    }
+
+    /**
+     * Render the widget output in the editor.
+     *
+     * Written as a Backbone JavaScript template and used to generate the live preview.
+     *
+     * @since 1.0.0
+     *
+     * @access protected
+     */
+    protected function _content_template()
+    {
+        ?>
+        <#
+            view.addRenderAttribute(
+                '<%= fileName %>-wrapper',
+                    {
+                      <% attributes.forEach(function(attribute){ %>
+                           '<%=attribute%>': settings.<%=attribute%>,
+                      <% }); %>
+                    }
+
+            );
+        #>
+
+        <<%= fileName %> {{{ view.getRenderAttributeString( '<%= fileName %>-wrapper' ) }}}></<%= fileName %>>
+        <?php
+    }
+}

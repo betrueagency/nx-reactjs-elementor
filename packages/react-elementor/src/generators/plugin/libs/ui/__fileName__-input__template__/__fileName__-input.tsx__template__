@@ -1,0 +1,71 @@
+import {update<%=classComponent%>Entity} from '@<%=npmScope%>/store'
+import React, {FormEvent, RefObject, useRef} from 'react';
+import {useDispatch} from 'react-redux';
+import {makeStyles, Theme} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import {Button, Container, CssBaseline, Grid} from "@material-ui/core";
+import {createStyles} from "@material-ui/styles";
+import PropTypes from "prop-types";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    input: {
+      margin: theme.spacing(1),
+      height: 38
+    }
+  })
+);
+
+export default function <%=className%>Input({ textFieldLabel,
+                                      handleSubmit,
+                                      buttonLabel,
+                                      inputRef
+                                    }) {
+  const classes = useStyles();
+
+  return (
+    <Grid
+      container
+      direction="column-reverse"
+      justifyContent="center"
+      alignItems="center">
+      <form onSubmit={handleSubmit}>
+        <TextField InputProps={{
+          className: classes.input
+        }} type="text "
+        label={textFieldLabel ? textFieldLabel : 'Type a new title'}
+        variant="outlined"
+        inputRef={inputRef}/>
+        <Button className={classes.input} type="submit" variant="outlined">
+        {buttonLabel ? buttonLabel : 'Update title'}
+        </Button>
+      </form>
+    </Grid>
+  );
+}
+
+/**
+* Same component linked to the store
+*/
+export function <%=className%>InputStore({placeholder, button}) {
+  const dispatch = useDispatch()
+  const input: RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null)
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(update<%=classComponent%>Entity(input.current && input.current.value))
+    input.current && (input.current.value = '')
+    input.current && input.current.focus()
+  }
+  return <<%=className%>Input textFieldLabel={placeholder} buttonLabel={button} handleSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)} inputRef={input}/>
+}
+
+
+/**
+ * Exposing props to elementor through the web component
+ */
+<%=className%>InputStore.propTypes = {
+  placeholder: PropTypes.string,
+  button: PropTypes.string
+};
+

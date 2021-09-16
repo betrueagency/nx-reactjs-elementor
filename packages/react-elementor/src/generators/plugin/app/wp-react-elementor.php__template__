@@ -1,0 +1,21 @@
+<?php
+/**
+ * Elementor <%= name %> WordPress Plugin
+ *
+ * @package <%= className %>
+ *
+ * Plugin Name: <%= name %>
+ * Description: <%= pluginDescription %>
+ * Plugin URI:  <%= pluginUri %>
+ * Version:     1.0.0
+ * Author:      <%= author %>
+ * Author URI:  <%= author %>
+ * Text Domain: <%= fileName %>
+ */
+
+define( 'ELEMENTOR_<%= constantName %>', __FILE__ );
+
+/**
+ * Include the <%= name %> class.
+ */
+require plugin_dir_path(ELEMENTOR_<%= constantName %>) . 'class-react-elementor.php';

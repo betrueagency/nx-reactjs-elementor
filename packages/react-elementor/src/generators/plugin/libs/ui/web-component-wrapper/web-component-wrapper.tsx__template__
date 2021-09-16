@@ -1,0 +1,60 @@
+import {create} from 'jss';
+import {jssPreset, StylesProvider} from '@material-ui/styles';
+import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import React from 'react';
+import {EnhancedStore} from '@reduxjs/toolkit/src/configureStore';
+import reactToWebComponent from 'react-to-webcomponent';
+
+/**
+* Web component wrapper that wrap the react component into a shadow dom web component
+* shadow dom is used to isolate your custom component from element styles
+*/
+export function WebComponentWrapper(
+  NAME: string,
+  Component: ({}) => JSX.Element,
+  store: EnhancedStore
+): void {
+
+  class WebComponent extends reactToWebComponent(Component, React, ReactDOM) {
+
+    props = {}
+
+    connectedCallback() {
+
+
+      const shadowRoot = super.attachShadow({mode: 'open'});
+      let mountPoint = document.createElement('span');
+      mountPoint.id = NAME;
+      const reactRoot = shadowRoot.appendChild(mountPoint);
+      const jss = create({
+        ...jssPreset(),
+        insertionPoint: reactRoot,
+      });
+
+      if ((Component as any).propTypes) {
+        this.props = Object.keys((Component as any).propTypes).reduce((obj, item) => {
+          console.log(item)
+          console.log(super.getAttribute(item))
+          return {
+            ...obj,
+            [`${item}`]: super.getAttribute(item),
+          };
+        }, {});
+      }
+
+      ReactDOM.render(
+        <StylesProvider jss={jss} sheetsManager={new Map()}>
+          <Provider store={store}>
+            <Component {...this.props} />
+          </Provider>
+        </StylesProvider>,
+        mountPoint
+      );
+    }
+  }
+
+  if (!customElements.get(NAME)) {
+    customElements.define(NAME, WebComponent as any);
+  }
+}

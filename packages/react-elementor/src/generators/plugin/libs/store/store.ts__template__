@@ -1,0 +1,2 @@
+export * from './<%=fileName%>.store'
+export * from './<%=fileName%>.selector'

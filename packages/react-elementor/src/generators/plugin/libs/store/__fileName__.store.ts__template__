@@ -1,0 +1,19 @@
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+
+
+const initialState = 'Hello <%=name%>'
+
+const <%=classComponent%>EntitySlice = createSlice({
+  name: '<%=classComponent%>Entity',
+  initialState,
+  reducers: {
+    update<%=classComponent%>Entity: (state, action) => {
+      return action.payload
+    },
+  }
+})
+
+export const {update<%=classComponent%>Entity} = <%=classComponent%>EntitySlice.actions
+
+export const <%=classComponent%>Reducer = <%=classComponent%>EntitySlice.reducer
+

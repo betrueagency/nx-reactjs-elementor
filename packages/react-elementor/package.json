@@ -1,0 +1,8 @@
+{
+  "name": "@betrue/react-elementor",
+  "version": "0.0.4",
+  "homepage": "https://github.com/betrueagency/nx-reactjs-elementor",
+  "main": "src/index.js",
+  "generators": "./generators.json",
+  "executors": "./executors.json"
+}

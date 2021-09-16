@@ -27,12 +27,12 @@
     ]
   },
   "projects": {
-    "elementor-plugin": {
+    "react-elementor": {
       "tags": []
     },
-    "elementor-plugin-e2e": {
+    "react-elementor-e2e": {
       "tags": [],
-      "implicitDependencies": ["elementor-plugin"]
+      "implicitDependencies": ["react-elementor"]
     }
   },
   "workspaceLayout": {

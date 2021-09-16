@@ -1,0 +1,41 @@
+{
+  "name": "react-elementor",
+  "version": "0.1",
+  "extends": [
+    "@nrwl/react"
+  ],
+  "schematics": {
+    "init": {
+      "factory": "./src/generators/init/init#elementorInitSchematic",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Initialize the @betrue/react-elementor plugin",
+      "hidden": true
+    },
+    "application": {
+      "factory": "./src/generators/plugin/generator#pluginSchematic",
+      "schema": "./src/generators/plugin/schema.json",
+      "aliases": ["plugin"],
+      "x-type": "application",
+      "description": "Create a react elementor application"
+    }
+  },
+  "generators": {
+    "init": {
+      "factory": "./src/generators/init/init#elementorInitGenerator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Initialize the @nrwl/next plugin",
+      "hidden": true
+    },
+    "application": {
+      "factory": "./src/generators/plugin/generator#pluginGenerator",
+      "schema": "./src/generators/plugin/schema.json",
+      "aliases": ["plugin"],
+      "description": "Initialize @betrue/react-elementor Wordpress plugin"
+    },
+    "addWidget": {
+      "factory": "./src/generators/widget/generator",
+      "schema": "./src/generators/widget/schema.json",
+      "description": "Add widget to an existing plugin"
+    }
+  }
+}

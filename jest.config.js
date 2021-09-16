@@ -1,6 +1,6 @@
 module.exports = {
   projects: [
-    '<rootDir>/packages/elementor-plugin',
-    '<rootDir>/e2e/elementor-plugin-e2e',
+    '<rootDir>/packages/react-elementor',
+    '<rootDir>/e2e/react-elementor-e2e',
   ],
 };

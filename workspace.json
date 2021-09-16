@@ -1,22 +1,22 @@
 {
   "version": 2,
   "projects": {
-    "elementor-plugin": {
-      "root": "packages/elementor-plugin",
-      "sourceRoot": "packages/elementor-plugin/src",
-      "projectType": "library",
+    "react-elementor": {
+      "root": "packages/react-elementor",
+      "sourceRoot": "packages/react-elementor/src",
+      "projectType": "application",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["packages/elementor-plugin/**/*.ts"]
+            "lintFilePatterns": ["packages/react-elementor/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/elementor-plugin"],
+          "outputs": ["coverage/packages/react-elementor"],
           "options": {
-            "jestConfig": "packages/elementor-plugin/jest.config.js",
+            "jestConfig": "packages/react-elementor/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -24,29 +24,29 @@
           "executor": "@nrwl/node:package",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/packages/elementor-plugin",
-            "tsConfig": "packages/elementor-plugin/tsconfig.lib.json",
-            "packageJson": "packages/elementor-plugin/package.json",
-            "main": "packages/elementor-plugin/src/index.ts",
+            "outputPath": "dist/packages/react-elementor",
+            "tsConfig": "packages/react-elementor/tsconfig.lib.json",
+            "packageJson": "packages/react-elementor/package.json",
+            "main": "packages/react-elementor/src/index.ts",
             "assets": [
-              "packages/elementor-plugin/*.md",
+              "packages/react-elementor/*.md",
               {
-                "input": "./packages/elementor-plugin/src",
+                "input": "./packages/react-elementor/src",
                 "glob": "**/!(*.ts)",
                 "output": "./src"
               },
               {
-                "input": "./packages/elementor-plugin/src",
+                "input": "./packages/react-elementor/src",
                 "glob": "**/*.d.ts",
                 "output": "./src"
               },
               {
-                "input": "./packages/elementor-plugin",
+                "input": "./packages/react-elementor",
                 "glob": "generators.json",
                 "output": "."
               },
               {
-                "input": "./packages/elementor-plugin",
+                "input": "./packages/react-elementor",
                 "glob": "executors.json",
                 "output": "."
               }
@@ -55,18 +55,18 @@
         }
       }
     },
-    "elementor-plugin-e2e": {
-      "root": "e2e/elementor-plugin-e2e",
+    "react-elementor-e2e": {
+      "root": "e2e/react-elementor-e2e",
       "projectType": "application",
-      "sourceRoot": "e2e/elementor-plugin-e2e/src",
+      "sourceRoot": "e2e/react-elementor-e2e/src",
       "targets": {
         "e2e": {
           "executor": "@nrwl/nx-plugin:e2e",
           "options": {
-            "target": "elementor-plugin:build",
-            "npmPackageName": "@betrue/elementor-plugin",
-            "pluginOutputPath": "dist/packages/elementor-plugin",
-            "jestConfig": "e2e/elementor-plugin-e2e/jest.config.js"
+            "target": "react-elementor:build",
+            "npmPackageName": "@betrue/react-elementor",
+            "pluginOutputPath": "dist/packages/react-elementor",
+            "jestConfig": "e2e/react-elementor-e2e/jest.config.js"
           }
         }
       }

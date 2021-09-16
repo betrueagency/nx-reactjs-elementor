@@ -1,0 +1,32 @@
+import {useSelector} from "react-redux";
+import {<%=classComponent%>EntitySelector} from '@<%=npmScope%>/store'
+import PropTypes from "prop-types"
+
+/**
+* Component that expose the title
+*/
+export default function <%=className%>Title(
+  {
+    label,
+    lastValue
+  }) {
+
+  return (<h1> {label ? `${label}: ` : 'Title: '} {lastValue} </h1>)
+}
+
+/**
+* Same component linked to the store
+*/
+export function <%=className%>TitleStore({label}) {
+  const v = useSelector(<%=classComponent%>EntitySelector)
+
+  return <<%=className%>Title lastValue={v} label={label}/>
+}
+
+/**
+ * Exposing props to elementor through the web component
+ * /!\ o not use this for state management
+ */
+<%=className%>TitleStore.propTypes = {
+  label: PropTypes.string
+};

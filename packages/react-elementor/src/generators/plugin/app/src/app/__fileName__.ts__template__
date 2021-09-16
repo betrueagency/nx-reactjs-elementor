@@ -1,0 +1,18 @@
+import {configureStore} from "@reduxjs/toolkit";
+import {<%=className%>TitleStore, <%=className%>InputStore, WebComponentWrapper}  from '@<%=npmScope%>/ui'
+import {<%=classComponent%>Reducer} from '@<%=npmScope%>/store'
+
+const reducer = {
+  <%=classComponent%>Entity: <%=classComponent%>Reducer
+}
+
+const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  devTools: process.env.NODE_ENV !== 'production',
+  preloadedState: {},
+  enhancers: [],
+})
+
+WebComponentWrapper('<%= fileName %>-input', <%=className%>InputStore, store)
+WebComponentWrapper('<%= fileName %>-title', <%=className%>TitleStore, store)
