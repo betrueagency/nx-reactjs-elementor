@@ -5,6 +5,8 @@ All widget are wrapped in web component that will act as a proxy between element
 all web components uses shadow dom to prevent css overload.
 
 State between component is maintained using Redux.
+![image](img/elementor-widgets.jpg)
+
 
 ## Plugins
 
@@ -25,13 +27,23 @@ Install [`@betrue/react-elementor`](https://www.npmjs.com/package/@betrue/react-
 
 ## Usage
 
-Create a Wordpress plugin that will wrap all elementor widgets
+Create a new plugin
 
     nx g @betrue/react-elementor:plugin my-project
 
-You can now serve the app to see the generated web component in action on [`http://localhost:4200`](http://localhost:4200)
+this generates starting code base made up of two react components (input from and display title) wrapped into elementor widgets.     
+
+if you already have and Wordpress instance with elementor installed, you juste need to build the wordpress plugin
+
+     nx elementor my-project
+
+Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
+
+You can also serve the app to see the generated web component in action on [`http://localhost:4200`](http://localhost:4200)
 
     nx serve my-project
+
+## Try it using docker
 
 If you have already installed docker and docker-compose you can try the elementor plugin in wordpress
 
@@ -64,4 +76,4 @@ start docker-compose
 
 ## Maintainer
 
-- [Selim Bensenouci](https://github.com/alizarion)
+- [https://betrue.fr/](https://www.betrue.fr/) 
