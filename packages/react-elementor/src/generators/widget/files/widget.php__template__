@@ -131,7 +131,7 @@ class <%= constantName %> extends Widget_Base
             )
         );
 
-       <% attributes.forEach(function(attribute){ %>
+       <% parsedAttributes.forEach(function(attribute){ %>
 
             $this->add_control(
                 '<%=attribute%>',
@@ -161,7 +161,7 @@ class <%= constantName %> extends Widget_Base
         $this->add_render_attribute(
             '<%= fileName %>-wrapper',
             [
-                 <% attributes.forEach(function(attribute){ %>
+                 <% parsedAttributes.forEach(function(attribute){ %>
                      '<%=attribute%>' => wp_kses( $settings['<%=attribute%>'], array() ),
                  <% }); %>
             ]
@@ -188,7 +188,7 @@ class <%= constantName %> extends Widget_Base
             view.addRenderAttribute(
                 '<%= fileName %>-wrapper',
                     {
-                      <% attributes.forEach(function(attribute){ %>
+                      <% parsedAttributes.forEach(function(attribute){ %>
                            '<%=attribute%>': settings.<%=attribute%>,
                       <% }); %>
                     }

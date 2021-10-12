@@ -29,11 +29,6 @@
       "description": "Add tags to the project (used for linting)",
       "alias": "t"
     },
-    "directory": {
-      "type": "string",
-      "description": "A directory where the project is placed (sub-directory in lib folder",
-      "alias": "d"
-    },
     "author": {
       "type": "string",
       "description": "Name of who makes this plugin.",
@@ -44,11 +39,19 @@
       "description": "Widget description that appear in wordpress plugin view.",
       "default": ""
     },
+    "attributes": {
+      "type": "string",
+      "description": "Widget list of customizable attributes.",
+      "default": ""
+    },
     "version": {
       "type": "string",
       "description": "Wordpress plugin version",
       "default": ""
     }
   },
-  "required": ["name","plugin"]
+  "required": [
+    "name",
+    "plugin"
+  ]
 }

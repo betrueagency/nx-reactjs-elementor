@@ -16,7 +16,6 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     dot: '.'
   };
 
-  console.log(offsetFromRoot(libRoot))
 
   await libraryGenerator(host,
     {

@@ -26,22 +26,6 @@ describe('react-elementor:plugin e2e', () => {
   }, 120000);
 
 
-  /**describe('--directory', () => {
-    it('should create src in the specified directory', async () => {
-      const plugin = uniq('react-elementor');
-      ensureNxProject(
-        '@betrue/react-elementor',
-        'dist/packages/react-elementor'
-      );
-      await runNxCommandAsync(
-        `generate @betrue/react-elementor:plugin ${plugin} --directory subdir`
-      );
-      expect(() =>
-        checkFilesExist(`apps/subdir/${plugin}/index.php`)
-      ).not.toThrow();
-    }, 120000);
-  });
-
 
   describe('--tags', () => {
     it('should add tags to nx.json', async () => {
@@ -75,11 +59,11 @@ describe('react-elementor:plugin e2e', () => {
       );
 
       await runNxCommandAsync(
-        `generate @betrue/react-elementor:addWidget --name ${widget1}  --plugin ${plugin}`
+        `generate @betrue/react-elementor:addWidget --name ${widget1}  --plugin ${plugin} --attributes attrs1,attrs2`
       );
 
       await runNxCommandAsync(
-        `generate @betrue/react-elementor:addWidget --name ${widget2}  --plugin ${plugin}`
+        `generate @betrue/react-elementor:addWidget --name ${widget2}  --plugin ${plugin} --attributes attrs1,attrs2`
       );
 
       expect(() =>
@@ -89,5 +73,5 @@ describe('react-elementor:plugin e2e', () => {
       ).not.toThrow();
     }, 120000);
 
-  });*/
+  });
 });

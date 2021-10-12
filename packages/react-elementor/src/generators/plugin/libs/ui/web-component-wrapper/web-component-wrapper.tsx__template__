@@ -34,8 +34,6 @@ export function WebComponentWrapper(
 
       if ((Component as any).propTypes) {
         this.props = Object.keys((Component as any).propTypes).reduce((obj, item) => {
-          console.log(item)
-          console.log(super.getAttribute(item))
           return {
             ...obj,
             [`${item}`]: super.getAttribute(item),

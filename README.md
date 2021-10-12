@@ -35,7 +35,7 @@ this generates starting code base made up of two react components (input from an
 
 if you already have and Wordpress instance with elementor installed, you juste need to build the wordpress plugin
 
-     nx elementor my-project
+     nx pkg my-project
 
 Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
 
@@ -47,7 +47,7 @@ You can also serve the app to see the generated web component in action on [`htt
 
 If you have already installed docker and docker-compose you can try the elementor plugin in wordpress
 
-    nx elementor my-project // to build the plugin     `      
+    nx pkg my-project // to package the plugin into dist/     `      
 
 start docker-compose
 
@@ -68,7 +68,6 @@ start docker-compose
 | `name`                          | (Required) name of the Reactjs elementor widget                                    |
 | `plugin`                        | (Required) The name of the Wordpress plugin in which the widget will be generated. |
 | `attributes`                    | List of attribute that are customizable in elementor                               |
-| `directory`                     | A directory where the project is placed (sub-directory in lib).                    |
 | `author`                        | Name of who makes this plugin.                                                     |
 | `tags`                          | Add tags to the project (used for linting).                                        |
 | `widgetDescription`             | Widget description that appear in Wordpress plugin view.                           |

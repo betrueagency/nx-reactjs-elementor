@@ -4,7 +4,6 @@ import {NormalizedSchema} from "@nrwl/react/src/generators/application/schema";
 export interface ElementorPluginGeneratorSchema  extends NormalizedSchema {
   name: string;
   tags?: string;
-  directory?: string;
   pluginDescription?: string;
   pluginUri?: string;
   author?: string;

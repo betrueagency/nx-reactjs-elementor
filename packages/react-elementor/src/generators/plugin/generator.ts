@@ -13,7 +13,7 @@ import * as path from 'path';
 import {ElementorPluginGeneratorSchema} from './schema';
 import elementorInitGenerator from "../init/init"
 import {runTasksInSerial} from "@nrwl/workspace/src/utilities/run-tasks-in-serial";
-import { assertValidStyle, SupportedStyles} from "@nrwl/react";
+import {assertValidStyle, SupportedStyles} from "@nrwl/react";
 import {addProject} from "@nrwl/react/src/generators/application/lib/add-project";
 import widgetGenerator from '../../generators/widget/generator'
 import {generateReduxFiles} from "./lib/redux-files";
@@ -39,7 +39,7 @@ function normalizeOptions(
   const projectRoot = `${getWorkspaceLayout(host).appsDir}/${projectDirectory}`;
   const appProjectRoot = projectRoot
   const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
+    ? options.tags?.split(',').map((s) => s.trim())
     : [];
 
   const styledModule = /^(css|scss|less|styl|none)$/.test(options.style)
@@ -48,6 +48,7 @@ function normalizeOptions(
 
   assertValidStyle(options.style);
   options.strict = options.strict ?? true;
+  options.styledModule = "none"
   options.classComponent = options.classComponent ?? false;
   options.unitTestRunner = options.unitTestRunner ?? 'jest';
   options.e2eTestRunner = options.e2eTestRunner ?? 'cypress';
@@ -69,15 +70,16 @@ function addFiles(host: Tree, options: ElementorNormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    offsetFromRoot: offsetFromRoot(options.appProjectRoot),
     template: '',
+    tmpl:'',
     dot: '.'
   };
 
   generateFiles(
     host,
     path.join(__dirname, 'app'),
-    options.projectRoot,
+    options.appProjectRoot,
     templateOptions,
   );
 
@@ -101,7 +103,7 @@ export async function pluginGenerator(
     }
   }
 
-  projectConfig.targets.elementor = {
+  projectConfig.targets.pkg = {
     executor: "@nrwl/workspace:run-commands",
     options: {
       commands: [
@@ -115,34 +117,35 @@ export async function pluginGenerator(
   updateProjectConfiguration(host, normalizedOptions.projectName, projectConfig)
   addFiles(host, normalizedOptions);
   const widgetDescription = 'simple demo widget generated on project init'
-
+  normalizedOptions.directory = undefined
   await widgetGenerator(host,
     {
-      attributes: ['placeholder', 'button'],
+      attributes: 'placeholder,button',
       author: normalizedOptions.author,
       name: `${normalizedOptions.name}-input`,
       version: normalizedOptions.version,
       widgetDescription: widgetDescription,
-      plugin: normalizedOptions.name
+      plugin: normalizedOptions.projectName
     })
 
   await widgetGenerator(host, {
-    attributes: ['label'],
+    attributes: 'label',
     author: normalizedOptions.author,
     widgetDescription: widgetDescription,
     version: normalizedOptions.version,
     name: `${normalizedOptions.name}-title`,
-    plugin: normalizedOptions.name
+    plugin: normalizedOptions.projectName
   })
 
-  await reactComponentFiles(host,normalizedOptions)
+  await reactComponentFiles(host, normalizedOptions)
 
-  await generateReduxFiles(host,normalizedOptions)
+  await generateReduxFiles(host, normalizedOptions)
 
   const elementorTask = await elementorInitGenerator(host, {
     ...options,
     skipFormat: true,
   });
+
   await formatFiles(host);
   return runTasksInSerial(
     elementorTask

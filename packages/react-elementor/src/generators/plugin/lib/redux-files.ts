@@ -19,7 +19,8 @@ export async function generateReduxFiles(host:Tree, options: ElementorNormalized
 
   await workspaceLibraryGenerator(host, {
     ...options,
-    ...names(`store`), name: 'store'
+    ...names(`store`),
+    name: 'store'
   })
 
   generateFiles(

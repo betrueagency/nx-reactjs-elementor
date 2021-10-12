@@ -24,6 +24,7 @@ function setDefault(host: Tree) {
       application: {
         ...reactGenerators.application,
         babel: true,
+
       },
     },
   };
@@ -38,20 +39,19 @@ function updateDependencies(host: Tree) {
   return addDependenciesToPackageJson(
     host,
     {
-      '@betrue/react-elementor': '*',
       react: reactVersion,
-      'redux': '*',
+      'redux': 'latest',
       "jss": "^10.7.1",
       "react-redux": "^7.2.5",
       "@reduxjs/toolkit": "^1.6.1",
       '@material-ui/styles': '^4.11.4',
       "@material-ui/core": "^4.12.3",
-      'react-to-webcomponent' : '*',
-      'prop-types': '*',
+      'react-to-webcomponent' : 'latest',
+      'prop-types': 'latest',
       'react-dom': reactDomVersion
     },
     {
-      '@betrue/react-elementor': '*'
+      '@betrue/react-elementor': 'latest'
     }
   );
 }
