@@ -36,7 +36,7 @@ final class <%= constantName %> {
      * @since 1.0.0
      * @var string The plugin version.
      */
-    const VERSION = '<%= version %>';
+    const VERSION = 'xxVERSIONxx';
 
     /**
      * Minimum Elementor Version

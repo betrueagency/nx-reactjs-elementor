@@ -43,6 +43,10 @@ You can also serve the app to see the generated web component in action on [`htt
 
     nx serve my-project
 
+On build is important to pass the release version to make force resources update and reset cache 
+
+    RELEASE_VERSION=xxxx plugin my-project
+
 ## Try it using docker
 
 If you have already installed docker and docker-compose you can try the elementor plugin in wordpress

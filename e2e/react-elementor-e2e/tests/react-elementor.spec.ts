@@ -1,6 +1,6 @@
 import {
   checkFilesExist,
-  ensureNxProject,
+  ensureNxProject, readFile,
   readJson,
   runNxCommandAsync,
   uniq,
@@ -27,7 +27,7 @@ describe('react-elementor:plugin e2e', () => {
 
 
 
-  describe('--tags', () => {
+  /**describe('--tags', () => {
     it('should add tags to nx.json', async () => {
       const plugin = uniq('react-elementor');
       ensureNxProject(
@@ -39,6 +39,28 @@ describe('react-elementor:plugin e2e', () => {
       );
       const nxJson = readJson('nx.json');
       expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
+    }, 120000);
+  });**/
+
+  describe('RELEASE_VERSION', () => {
+    it('should update version xxVERSIONxx', async () => {
+      const plugin = uniq('react-elementor');
+      ensureNxProject(
+        '@betrue/react-elementor',
+        'dist/packages/react-elementor'
+      );
+      await runNxCommandAsync(
+        `generate @betrue/react-elementor:plugin ${plugin} `
+      );
+      await runNxCommandAsync(
+        `build ${plugin}`
+      );
+      await runNxCommandAsync(
+        `plugin ${plugin} `
+      );
+      const file = readFile(`dist/elementor/${plugin}/class-widgets.php`);
+      console.log(file)
+      expect(file.includes('noVersion')).toEqual(true);
     }, 120000);
   });
 
