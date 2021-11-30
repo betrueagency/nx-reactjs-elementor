@@ -65,7 +65,7 @@ start docker-compose
 
 ### Add a new widget to an existing plugin:
 
-    nx g @betrue/nx-reactjs-elementor:addWidget --name my-widget --plugin my-plugin --attributes attr1,attr2
+    nx g @betrue/react-elementor:addWidget --name my-widget --plugin my-plugin --attributes attr1,attr2
 
 | Option                          | Description                                                                        |
 | ------------------------------- | -------------------------------------------------------                            |
