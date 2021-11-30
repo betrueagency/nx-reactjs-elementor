@@ -42,7 +42,7 @@ describe('react-elementor:plugin e2e', () => {
     }, 120000);
   });**/
 
-  describe('RELEASE_VERSION', () => {
+  describe('NX_RELEASE_VERSION', () => {
     it('should update version xxVERSIONxx', async () => {
       const plugin = uniq('react-elementor');
       ensureNxProject(

@@ -33,9 +33,9 @@ export default async function runExecutor(options: BuildExecutorSchema, context:
   await _(`${context.root}/dist/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}/dist`, {
     exclude: []
   })
-  if (process.env.RELEASE_VERSION) {
-    console.log('update version to : ', process.env.RELEASE_VERSION)
-    await updateVersion(process.env.RELEASE_VERSION,
+  if (process.env.NX_RELEASE_VERSION) {
+    console.log('update version to : ', process.env.NX_RELEASE_VERSION)
+    await updateVersion(process.env.NX_RELEASE_VERSION,
       [`${context.root}/dist/elementor/${options.plugin}/class-react-elementor.php`,
         `${context.root}/dist/elementor/${options.plugin}/class-widgets.php`])
 

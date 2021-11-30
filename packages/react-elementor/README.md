@@ -45,7 +45,7 @@ You can also serve the app to see the generated web component in action on [`htt
 
 On build is important to pass the release version to make force resources update and reset cache
 
-    RELEASE_VERSION=xxxx plugin my-project
+    NX_RELEASE_VERSION=xxxx plugin my-project
 
 ## Try it using docker
 
