@@ -3,9 +3,10 @@ import {
   formatFiles,
   generateFiles, getProjects,
   getWorkspaceLayout, logger,
+  updateProjectConfiguration,
   names,
   offsetFromRoot,
-  Tree,
+  Tree, ProjectConfiguration,
 } from '@nrwl/devkit';
 import * as path from 'path';
 import {ElementorWidgetGeneratorSchema} from './schema';
@@ -132,14 +133,22 @@ export default async function (
   options: ElementorWidgetGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(host, options);
-
-  addProjectConfiguration(host, normalizedOptions.widgetName, {
+  const widgetProject = getProjects(host).get(normalizedOptions.widgetName)
+  const projectConfig = {
     root: normalizedOptions.widgetRoot,
     projectType: 'application',
     sourceRoot: `${normalizedOptions.widgetRoot}`,
     targets: {},
     tags: normalizedOptions.parsedTags,
-  });
+  } as ProjectConfiguration
+  if (!widgetProject) {
+    addProjectConfiguration(host, normalizedOptions.widgetName, projectConfig);
+  } else {
+    updateProjectConfiguration(host,
+      normalizedOptions.widgetName,
+      {...widgetProject, ...projectConfig})
+  }
+
   addFiles(host, normalizedOptions);
   await formatFiles(host);
 }

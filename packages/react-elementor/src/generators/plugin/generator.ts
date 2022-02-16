@@ -95,11 +95,13 @@ export async function pluginGenerator(
 
   const projectConfig = readProjectConfiguration(host, normalizedOptions.projectName)
 
+  projectConfig.targets.build.configurations.production.outputHashing = "none"
 
   projectConfig.targets.plugin = {
     executor: '@betrue/react-elementor:build',
     options: {
-      plugin: normalizedOptions.projectName
+      plugin: normalizedOptions.projectName,
+      replaceFilePattern:'.esm.js'
     }
   }
 
