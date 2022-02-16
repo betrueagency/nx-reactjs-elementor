@@ -73,8 +73,10 @@ function normalizeOptions(
 
   const existingWidgets = host.children(widgetsRoot).filter((file) => !host.isFile(`${widgetsRoot}/${file}`));
   existingWidgets.forEach((name) => {
-    widgets.push(name);
-    widgetsConstants.push(names(name).constantName);
+    if (widgetConstantName !== names(name).constantName) {
+      widgets.push(name);
+      widgetsConstants.push(names(name).constantName);
+    }
   });
   logger.info(`${widgets}`)
   return {
