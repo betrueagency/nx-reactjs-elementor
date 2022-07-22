@@ -1,9 +1,9 @@
 import {BuildExecutorSchema} from './schema';
-import _ from 'sync-directory'
 import {ExecutorContext} from '@nrwl/devkit';
 import * as fs from 'fs';
 import {readdirSync, renameSync} from "fs";
 import {join} from 'path'
+import {copySync} from 'fs-extra'
 
 const updateVersion = (version: string, files: string[]): Promise<boolean[]> => {
   return Promise.all(files.map((file) => {
@@ -12,7 +12,8 @@ const updateVersion = (version: string, files: string[]): Promise<boolean[]> => 
         if (err) {
           reject(err)
         }
-        const result = data.replace(/xxVERSIONxx/g, version);
+        const result = data.replace(/xxVERSIONxx/g, version).replace(/noVersion/g, version);
+
         fs.writeFile(file, result, 'utf8', function (writeErr) {
           if (writeErr){
             reject(writeErr)
@@ -27,15 +28,10 @@ const updateVersion = (version: string, files: string[]): Promise<boolean[]> => 
 
 export default async function runExecutor(options: BuildExecutorSchema, context: ExecutorContext) {
 
-  await _(`${context.root}/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}`, {
-    exclude: ['src']
-  })
+  await copySync(`${context.root}/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}`)
 
 
-  await _(`${context.root}/dist/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}/dist`, {
-    exclude: []
-  })
-
+  await copySync(`${context.root}/dist/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}/dist`)
   const match = RegExp(options.replaceFilePattern, 'g');
   const files = readdirSync(`${context.root}/dist/elementor/${options.plugin}/dist`);
 
