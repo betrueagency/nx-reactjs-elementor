@@ -1,46 +1,38 @@
 import {update<%=classComponent%>Entity} from '@<%=npmScope%>/store'
 import React, {FormEvent, RefObject, useRef} from 'react';
 import {useDispatch} from 'react-redux';
-import {makeStyles, Theme} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import {Button, Container, CssBaseline, Grid} from "@material-ui/core";
-import {createStyles} from "@material-ui/styles";
-import PropTypes from "prop-types";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    input: {
-      margin: theme.spacing(1),
-      height: 38
-    }
-  })
-);
+import {Button, Grid, TextField} from '@mui/material';
+import PropTypes from 'prop-types';
 
 export default function <%=className%>Input({ textFieldLabel,
                                       handleSubmit,
                                       buttonLabel,
                                       inputRef
                                     }) {
-  const classes = useStyles();
 
   return (
-    <Grid
-      container
-      direction="column-reverse"
-      justifyContent="center"
-      alignItems="center">
-      <form onSubmit={handleSubmit}>
-        <TextField InputProps={{
-          className: classes.input
-        }} type="text "
-        label={textFieldLabel ? textFieldLabel : 'Type a new title'}
-        variant="outlined"
-        inputRef={inputRef}/>
-        <Button className={classes.input} type="submit" variant="outlined">
-        {buttonLabel ? buttonLabel : 'Update title'}
-        </Button>
+    <form onSubmit={handleSubmit}>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            direction={"row"}
+            spacing={2}>
+            <Grid item>
+              <TextField
+                type="text "
+                label={textFieldLabel ? textFieldLabel : 'Type a new title'}
+                variant="outlined"
+                inputRef={inputRef}
+              />
+            </Grid>
+            <Grid item>
+              <Button type="submit" variant="outlined">
+                {buttonLabel ? buttonLabel : 'Update title'}
+              </Button>
+            </Grid>
+          </Grid>
       </form>
-    </Grid>
   );
 }
 

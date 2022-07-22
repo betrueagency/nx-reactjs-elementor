@@ -1,6 +1,6 @@
 import {BuildExecutorSchema} from './schema';
 import _ from 'sync-directory'
-import {ExecutorContext} from "@nrwl/tao/src/shared/workspace";
+import {ExecutorContext} from '@nrwl/devkit';
 import * as fs from 'fs';
 import {readdirSync, renameSync} from "fs";
 import {join} from 'path'

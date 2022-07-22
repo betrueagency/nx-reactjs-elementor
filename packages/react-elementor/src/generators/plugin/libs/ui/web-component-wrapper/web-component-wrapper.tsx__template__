@@ -1,53 +1,66 @@
-import {create} from 'jss';
-import {jssPreset, StylesProvider} from '@material-ui/styles';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import React from 'react';
-import {EnhancedStore} from '@reduxjs/toolkit/src/configureStore';
 import reactToWebComponent from 'react-to-webcomponent';
+import {ThemeProvider} from "@mui/system";
+import createCache from "@emotion/cache";
+import {createTheme, StyledEngineProvider} from "@mui/material";
+import {createRoot} from "react-dom/client";
+import {responsiveFontSizes,} from '@mui/material/styles';
+import {CacheProvider} from "@emotion/react";
+import {Store} from "redux";
 
 /**
-* Web component wrapper that wrap the react component into a shadow dom web component
-* shadow dom is used to isolate your custom component from element styles
-*/
+ * Web component wrapper that wrap the react component into a shadow dom web component
+ * shadow dom is used to isolate your custom component from element styles
+ */
 export function WebComponentWrapper(
   NAME: string,
-  Component: ({}) => JSX.Element,
-  store: EnhancedStore
+  Component: (props: any) => JSX.Element,
+  store: Store
 ): void {
-
   class WebComponent extends reactToWebComponent(Component, React, ReactDOM) {
+    props = {};
 
-    props = {}
-
+    //https://codesandbox.io/s/shadow-dom-rki9k5?from-embed=&file=/index.tsx:1159-1188
     connectedCallback() {
-
-
       const shadowRoot = super.attachShadow({mode: 'open'});
-      let mountPoint = document.createElement('span');
+      const mountPoint = document.createElement('span');
+      const emotionRoot = document.createElement("style");
+
       mountPoint.id = NAME;
-      const reactRoot = shadowRoot.appendChild(mountPoint);
-      const jss = create({
-        ...jssPreset(),
-        insertionPoint: reactRoot,
+      shadowRoot.appendChild(mountPoint);
+      shadowRoot.appendChild(emotionRoot);
+      const cache = createCache({
+        key: "css",
+        prepend: true,
+        container: emotionRoot
       });
 
       if ((Component as any).propTypes) {
-        this.props = Object.keys((Component as any).propTypes).reduce((obj, item) => {
-          return {
-            ...obj,
-            [`${item}`]: super.getAttribute(item),
-          };
-        }, {});
+        this.props = Object.keys((Component as any).propTypes).reduce(
+          (obj, item) => {
+            return {
+              ...obj,
+              [`${item}`]: super.getAttribute(item),
+            };
+          },
+          {}
+        );
       }
+      const root = createRoot(mountPoint); // createRoot(container!) if you use TypeScript
+      const muiTheme = responsiveFontSizes(createTheme({/* your custom theme */}));
 
-      ReactDOM.render(
-        <StylesProvider jss={jss} sheetsManager={new Map()}>
-          <Provider store={store}>
-            <Component {...this.props} />
-          </Provider>
-        </StylesProvider>,
-        mountPoint
+      root.render(
+        <Provider store={store}>
+          <CacheProvider value={cache}>
+            <StyledEngineProvider injectFirst={false}>
+              <ThemeProvider theme={muiTheme}>
+                <Component {...this.props} />
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </CacheProvider>
+        </Provider>
       );
     }
   }

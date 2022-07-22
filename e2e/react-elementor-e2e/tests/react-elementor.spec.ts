@@ -1,7 +1,6 @@
 import {
   checkFilesExist,
   ensureNxProject, readFile,
-  readJson,
   runNxCommandAsync,
   uniq,
 } from '@nrwl/nx-plugin/testing';
@@ -17,14 +16,13 @@ describe('react-elementor:plugin e2e', () => {
       `generate @betrue/react-elementor:plugin ${plugin}`
     );
 
-    const result = await runNxCommandAsync(`build ${plugin}`);
+    await runNxCommandAsync(`pkg ${plugin}`);
     expect(() =>
       checkFilesExist(
         `apps/${plugin}/src/index.html`,
-        `dist/apps/${plugin}/main.js`)
+        `dist/elementor/${plugin}/dist/main.js`)
     ).not.toThrow();
   }, 120000);
-
 
 
   /**describe('--tags', () => {
@@ -59,7 +57,6 @@ describe('react-elementor:plugin e2e', () => {
         `plugin ${plugin} `
       );
       const file = readFile(`dist/elementor/${plugin}/class-widgets.php`);
-      console.log(file)
       expect(file.includes('noVersion')).toEqual(true);
     }, 120000);
   });

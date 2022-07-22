@@ -36,22 +36,25 @@ function updateDependencies(host: Tree) {
   updateJson(host, 'package.json', (json) => {
     return json;
   });
+
   return addDependenciesToPackageJson(
     host,
     {
       react: reactVersion,
       'redux': 'latest',
-      "jss": "^10.7.1",
-      "react-redux": "^7.2.5",
-      "@reduxjs/toolkit": "^1.6.1",
-      '@material-ui/styles': '^4.11.4',
-      "@material-ui/core": "^4.12.3",
+      'react-redux': '^7.2.5',
+      '@reduxjs/toolkit': '^1.6.1',
+      "@emotion/react": "^11.9.3",
+      "@emotion/styled": "^11.9.3",
+      "@mui/material": "^5.9.1",
       'react-to-webcomponent' : 'latest',
       'prop-types': 'latest',
       'react-dom': reactDomVersion
     },
     {
-      '@betrue/react-elementor': 'latest'
+      '@betrue/react-elementor': 'latest',
+      'babel-plugin-styled-components': "^2.0.7",
+
     }
   );
 }
