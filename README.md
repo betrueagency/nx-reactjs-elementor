@@ -25,33 +25,35 @@ Install [`@betrue/react-elementor`](https://www.npmjs.com/package/@betrue/react-
      cd my-workspace
      npm install -D @betrue/react-elementor
 
+
 ## Usage
 
 Create a new plugin
 
-    nx g @betrue/react-elementor:plugin my-project
+    npx nx g @betrue/react-elementor:plugin my-project
+    npm install
 
-this generates starting code base made up of two react components (input from and display title) wrapped into elementor widgets.     
+this generates starting code base made up of two react components (input from and display title) wrapped into elementor widgets.
 
 if you already have and Wordpress instance with elementor installed, you juste need to build the wordpress plugin
 
-     nx pkg my-project
+     npx nx pkg my-project
 
 Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
 
 You can also serve the app to see the generated web component in action on [`http://localhost:4200`](http://localhost:4200)
 
-    nx serve my-project
+    npx nx serve my-project
 
-On build is important to pass the release version to make force resources update and reset cache 
+On build is important to pass the release version to make force resources update and reset cache
 
-    NX_RELEASE_VERSION=xxxx plugin my-project
+    NX_RELEASE_VERSION=xxxx npx nx pkg my-project
 
 ## Try it using docker
 
 If you have already installed docker and docker-compose you can try the elementor plugin in wordpress
 
-    nx pkg my-project // to package the plugin into dist/     `      
+    npx nx pkg my-project // to package the plugin into dist/     `      
 
 start docker-compose
 
@@ -63,7 +65,7 @@ start docker-compose
 * Create a [`new page`](http://localhost:8000/wp-admin/post-new.php?post_type=page) and choose edit with elementor.
 * Search and add `my-project-title` and `my-project-input` widgets to your page.
 
-### Add a new widget to an existing plugin: 
+### Add a new widget to an existing plugin:
 
     nx g @betrue/react-elementor:addWidget --name my-widget --plugin my-plugin --attributes attr1,attr2
 
