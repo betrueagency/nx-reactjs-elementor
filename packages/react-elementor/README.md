@@ -31,6 +31,7 @@ Install [`@betrue/react-elementor`](https://www.npmjs.com/package/@betrue/react-
 Create a new plugin
 
     npx nx g @betrue/react-elementor:plugin my-project
+    ## choose styled component
     npm install
 
 this generates starting code base made up of two react components (input from and display title) wrapped into elementor widgets.
