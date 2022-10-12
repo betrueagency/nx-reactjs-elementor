@@ -41,14 +41,14 @@ function updateDependencies(host: Tree) {
     host,
     {
       react: reactVersion,
-      'redux': 'latest',
+      'redux': '^4.2.0',
       'react-redux': '^7.2.5',
       '@reduxjs/toolkit': '^1.6.1',
       "@emotion/react": "^11.9.3",
       "@emotion/styled": "^11.9.3",
       "@mui/material": "^5.9.1",
-      'react-to-webcomponent' : 'latest',
-      'prop-types': 'latest',
+      'react-to-webcomponent' : '^1.7.2',
+      'prop-types': '15.8.1',
       'react-dom': reactDomVersion
     },
     {
