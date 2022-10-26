@@ -2,7 +2,7 @@ import {generateFiles, getWorkspaceLayout, names, offsetFromRoot, Tree} from "@n
 import {ElementorNormalizedSchema} from "../generator";
 import {componentGenerator, libraryGenerator} from "@nrwl/react";
 import {Linter} from "@nrwl/linter";
-import path from "path";
+import * as path from 'path';
 
 const ROOT_UI_LIB = 'ui'
 

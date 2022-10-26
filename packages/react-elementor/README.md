@@ -18,7 +18,15 @@ State between component is maintained using Redux.
 
 Create a new nx workspace (if doesn't exist)
 
-`npx create-nx-workspace@latest my-workspace`
+    npx create-nx-workspace@latest my-workspace
+    
+    >  NX   Let's create a new workspace [https://nx.dev/getting-started/intro]
+    
+    ✔ Choose your style                     · integrated
+    ✔ What to create in the new workspace   · ts
+    ✔ Enable distributed caching to make your CI faster · No
+
+
 
 Install [`@betrue/react-elementor`](https://www.npmjs.com/package/@betrue/react-elementor)
 
@@ -31,7 +39,13 @@ Install [`@betrue/react-elementor`](https://www.npmjs.com/package/@betrue/react-
 Create a new plugin
 
     npx nx g @betrue/react-elementor:plugin my-project
-    ## choose styled component
+
+    >  NX  Generating @betrue/react-elementor:application
+    
+    ✔ Which stylesheet format would you like to use? · styled-components
+   
+    ....
+
     npm install
 
 this generates starting code base made up of two react components (input from and display title) wrapped into elementor widgets.
@@ -82,4 +96,4 @@ start docker-compose
 
 ## Maintainer
 
-- [https://betrue.fr/](https://www.betrue.fr/) 
+- [https://www.betrue.fr/](https://www.betrue.fr/) 
