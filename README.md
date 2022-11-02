@@ -4,8 +4,8 @@ Nx plugin to generate Wordpress plugin that enrich Elementor with ReactJS widget
 All widget are wrapped in web component that will act as a proxy between elementor and react.
 all web components uses shadow dom to prevent css overload.
 
-State between component is maintained using Redux.
-![image](img/elementor-widgets.jpg)
+State between component is maintained using Redux. but you can use the provider of your choice.
+![image](https://raw.githubusercontent.com/betrueagency/nx-reactjs-elementor/main/img/elementor-widgets.jpg)
 
 
 ## Plugins
@@ -23,7 +23,7 @@ Create a new nx workspace (if doesn't exist)
     >  NX   Let's create a new workspace [https://nx.dev/getting-started/intro]
     
     ✔ Choose your style                     · integrated
-    ✔ What to create in the new workspace   · ts
+    ✔ What to create in the new workspace   · apps
     ✔ Enable distributed caching to make your CI faster · No
 
 
@@ -50,15 +50,26 @@ Create a new plugin
 
 this generates starting code base made up of two react components (input from and display title) wrapped into elementor widgets.
 
+you will find the sources of the Wordpress apps directory, and elementor/react widgets in libs/ui.  
+
+Each new widget has.
+* React component (my-widget.tsx)
+* React component view (my-widget.view.tsx)
+* Stroybook stories file (my-widget.stories.tsx)
+* MUST be declared in apps/my-project/src/app/my-projet.ts in order to be wrapped in a web component
+* MUST have generated elementor widget [@betrue/react-elementor:addWidget](#add-a-new-widget-to-an-existing-plugin)
+
 if you already have and Wordpress instance with elementor installed, you juste need to build the wordpress plugin
 
      npx nx pkg my-project
 
 Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
 
-You can also serve the app to see the generated web component in action on [`http://localhost:4200`](http://localhost:4200)
+For development purpose, You can use storybook to live edit and test your react component [`http://localhost:4400`](http://localhost:4400)
 
-    npx nx serve my-project
+    npx nx run ui:storybook
+
+![image](https://raw.githubusercontent.com/betrueagency/nx-reactjs-elementor/main/img/storybook.png)
 
 On build is important to pass the release version to make force resources update and reset cache
 

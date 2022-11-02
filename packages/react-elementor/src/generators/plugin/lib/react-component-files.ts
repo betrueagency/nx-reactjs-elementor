@@ -1,13 +1,13 @@
 import {generateFiles, getWorkspaceLayout, names, offsetFromRoot, Tree} from "@nrwl/devkit";
 import {ElementorNormalizedSchema} from "../generator";
-import {componentGenerator, libraryGenerator} from "@nrwl/react";
+import {componentGenerator, libraryGenerator, storybookConfigurationGenerator} from "@nrwl/react";
 import {Linter} from "@nrwl/linter";
 import * as path from 'path';
 
 const ROOT_UI_LIB = 'ui'
 
 export async function reactComponentFiles(host: Tree, options: ElementorNormalizedSchema){
-  const libRoot = `${getWorkspaceLayout(host).libsDir}/ui/src/lib`;
+  const libRoot = `${getWorkspaceLayout(host).libsDir}/ui/src`;
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -23,17 +23,28 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
       skipFormat: false,
       skipTsConfig: false,
       style: 'none',
-      unitTestRunner: 'jest',
+      unitTestRunner: 'none',
       ...names(ROOT_UI_LIB),
       name: ROOT_UI_LIB
     } )
+
+  await storybookConfigurationGenerator(host,{
+    name: ROOT_UI_LIB,
+    configureCypress: false,
+    generateStories: false,
+    generateCypressSpecs: false,
+    js: false,
+    tsConfiguration: false,
+    configureTestRunner: false
+  })
 
   await componentGenerator(host, {
     style: 'none',
     ...names(`${options.name}-title`),
     name: `${options.name}-title`,
     project: ROOT_UI_LIB,
-    export: true
+    export: true,
+    skipTests:true
   })
 
   await componentGenerator(host, {
@@ -41,7 +52,8 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     ...names(`${options.name}-input`),
     name: `${options.name}-input`,
     project: ROOT_UI_LIB,
-    export: true
+    export: true,
+    skipTests:true
   })
 
   await componentGenerator(host, {
@@ -49,7 +61,8 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     ...names(`web-component-wrapper`),
     name: `web-component-wrapper`,
     project: ROOT_UI_LIB,
-    export: true
+    export: true,
+    skipTests:true
   })
 
   await generateFiles(

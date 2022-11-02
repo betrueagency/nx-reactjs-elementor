@@ -1,0 +1,27 @@
+import {useSelector} from 'react-redux';
+import {<%=classComponent%>EntitySelector} from '@<%=npmScope%>/store'
+import PropTypes, {InferProps} from 'prop-types';
+import {<%=className%>TitleView} from "./<%=fileName%>-title.view";
+
+export const <%=className%>TitlePropsTypes = {
+  label: PropTypes.string
+}
+
+export type <%=className%>TitleProps = InferProps<typeof <%=className%>TitlePropsTypes>
+
+
+
+/**
+ * Same component linked to the store
+ */
+export function <%=className%>Title(props:<%=className%>TitleProps) {
+  const v = useSelector(falseEntitySelector);
+
+  return <<%=className%>TitleView lastValue={v} {...props} />;
+}
+
+/**
+ * Exposing props to elementor through the web component
+ * /!\ o not use this for state management
+ */
+<%=className%>Title.propTypes = <%=className%>TitlePropsTypes
