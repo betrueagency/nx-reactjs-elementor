@@ -1,14 +1,23 @@
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
 import React from 'react';
 import reactToWebComponent from 'react-to-webcomponent';
-import {ThemeProvider} from "@mui/system";
-import createCache from "@emotion/cache";
-import {createTheme, StyledEngineProvider} from "@mui/material";
-import {createRoot} from "react-dom/client";
-import {responsiveFontSizes,} from '@mui/material/styles';
-import {CacheProvider} from "@emotion/react";
-import {Store} from "redux";
+import {ThemeProvider} from '@mui/system';
+import createCache from '@emotion/cache';
+import {StyledEngineProvider} from '@mui/material';
+import {createRoot} from 'react-dom/client';
+import {CacheProvider} from '@emotion/react';
+import {ProvidersProps} from "./types";
+
+
+export function ThemeProviders(props: ProvidersProps) {
+  return (
+    <StyledEngineProvider injectFirst={false}>
+      <ThemeProvider theme={props.theme}>
+        {props.children}
+      </ThemeProvider>
+    </StyledEngineProvider>
+  )
+}
 
 /**
  * Web component wrapper that wrap the react component into a shadow dom web component
@@ -16,25 +25,26 @@ import {Store} from "redux";
  */
 export function WebComponentWrapper(
   NAME: string,
-  Component: (props: any) => JSX.Element,
-  store: Store
+  Component: (props) => JSX.Element,
+  CustomProviders: (props) => React.ReactElement<typeof ThemeProviders>
 ): void {
   class WebComponent extends reactToWebComponent(Component, React, ReactDOM) {
     props = {};
+
 
     //https://codesandbox.io/s/shadow-dom-rki9k5?from-embed=&file=/index.tsx:1159-1188
     connectedCallback() {
       const shadowRoot = super.attachShadow({mode: 'open'});
       const mountPoint = document.createElement('span');
-      const emotionRoot = document.createElement("style");
+      const emotionRoot = document.createElement('style');
 
       mountPoint.id = NAME;
       shadowRoot.appendChild(mountPoint);
       shadowRoot.appendChild(emotionRoot);
       const cache = createCache({
-        key: "css",
+        key: 'css',
         prepend: true,
-        container: emotionRoot
+        container: emotionRoot,
       });
 
       if ((Component as any).propTypes) {
@@ -49,18 +59,14 @@ export function WebComponentWrapper(
         );
       }
       const root = createRoot(mountPoint); // createRoot(container!) if you use TypeScript
-      const muiTheme = responsiveFontSizes(createTheme({/* your custom theme */}));
+
 
       root.render(
-        <Provider store={store}>
-          <CacheProvider value={cache}>
-            <StyledEngineProvider injectFirst={false}>
-              <ThemeProvider theme={muiTheme}>
-                <Component {...this.props} />
-              </ThemeProvider>
-            </StyledEngineProvider>
-          </CacheProvider>
-        </Provider>
+        <CacheProvider value={cache}>
+          <CustomProviders>
+            <Component {...this.props} />
+          </CustomProviders>
+        </CacheProvider>
       );
     }
   }

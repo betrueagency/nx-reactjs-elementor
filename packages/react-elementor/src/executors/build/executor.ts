@@ -30,7 +30,6 @@ export default async function runExecutor(options: BuildExecutorSchema, context:
 
   await copySync(`${context.root}/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}`)
 
-
   await copySync(`${context.root}/dist/apps/${options.plugin}`, `${context.root}/dist/elementor/${options.plugin}/dist`)
   const match = RegExp(options.replaceFilePattern, 'g');
   const files = readdirSync(`${context.root}/dist/elementor/${options.plugin}/dist`);

@@ -1,0 +1,18 @@
+import {styled} from "@mui/material";
+import {<%=className%>TitleProps} from "@<%=npmScope%>/ui";
+import {StyledBaseProps} from "../common/types";
+
+
+interface <%=className%>TitleViewProps extends <%=className%>TitleProps, StyledBaseProps {
+  lastValue: string
+
+}
+
+export const <%=className%>TitleView = styled((props: <%=className%>TitleViewProps) => (
+  <div className={props.className}>
+    <h1>
+      {' '}
+      {props.label ? `${props.label}: ` : 'Title: '} {props.lastValue}{' '}
+    </h1>
+  </div>
+))``

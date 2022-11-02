@@ -1,0 +1,16 @@
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import { <%=className%>Title } from './<%=fileName%>-title';
+import {CustomProviders} from "../config/providers";
+
+const Story: ComponentMeta<typeof <%=className%>Title> = {
+  component: <%=className%>Title,
+  title: '<%=className%>Title',
+};
+export default Story;
+
+const Template: ComponentStory<typeof <%=className%>Title> = (args) => (
+ <CustomProviders><<%=className%>Title {...args} /></CustomProviders>
+);
+
+export const Primary = Template.bind({});
+Primary.args = {label: 'Your fresh title:'};

@@ -1,0 +1,19 @@
+import type {ComponentStory, ComponentMeta} from '@storybook/react';
+import {<%=className%>Input} from './<%=fileName%>-input';
+import {CustomProviders} from "../config/providers";
+
+const Story: ComponentMeta<typeof <%=className%>Input> = {
+  component: <%=className%>Input,
+  title: '<%=className%>Input',
+};
+export default Story;
+
+const Template: ComponentStory<typeof <%=className%>Input> = (args) => (
+  <CustomProviders><<%=className%>Input {...args} /></CustomProviders>
+);
+
+export const Primary = Template.bind({});
+Primary.args = {
+  label: 'Push it!',
+  placeholder:'To the limit'
+};

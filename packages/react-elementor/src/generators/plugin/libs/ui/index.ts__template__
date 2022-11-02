@@ -1,0 +1,4 @@
+export * from './lib/config/providers'
+export * from './lib/common/index'
+export * from './lib/<%=fileName%>-input/<%=fileName%>-input';
+export * from './lib/<%=fileName%>-title/<%=fileName%>-title';

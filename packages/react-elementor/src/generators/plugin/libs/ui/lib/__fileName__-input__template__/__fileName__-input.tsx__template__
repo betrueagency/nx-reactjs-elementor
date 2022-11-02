@@ -1,0 +1,40 @@
+import {update<%=classComponent%>Entity} from '@<%=npmScope%>/store';
+import React, {FormEvent} from 'react';
+import {useDispatch} from 'react-redux';
+import PropTypes, {InferProps} from 'prop-types';
+import {<%=className%>InputView} from "./<%=fileName%>-input.view";
+
+export const <%=className%>InputPropsTypes = {
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+}
+
+export type <%=className%>InputProps = InferProps<typeof <%=className%>InputPropsTypes>
+
+/**
+ * Same component linked to the store
+ */
+export function <%=className%>Input(props: <%=className%>InputProps) {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (e.target[0]?.value)
+    {
+      dispatch(update<%=classComponent%>Entity(e.target[0]?.value));
+      e.target[0].value = '';
+    }
+
+  };
+  return (
+    <<%=className%>InputView
+      {...props}
+      handleSubmit={handleSubmit}
+    />
+  );
+}
+
+/**
+ * Exposing props to elementor through the web component
+ */
+<%=className%>Input.propTypes = <%=className%>InputPropsTypes
