@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Grid, styled, TextField} from '@mui/material';
 import {StyledBaseProps} from "../common/types";
-import {<%=className%>InputProps} from "@<%=npmScope%>/ui";
+import {<%=className%>InputProps} from "./<%=fileName%>-input";
 
 interface <%=className%>InputViewProps extends StyledBaseProps, <%=className%>InputProps {
   handleSubmit: (e:any)=> void

@@ -1,5 +1,5 @@
 import {styled} from "@mui/material";
-import {<%=className%>TitleProps} from "@<%=npmScope%>/ui";
+import {<%=className%>TitleProps} from "./<%=fileName%>-title";
 import {StyledBaseProps} from "../common/types";
 
 

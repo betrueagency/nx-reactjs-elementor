@@ -104,6 +104,9 @@ function addFiles(host: Tree, options: NormalizedSchema) {
   const pluginTemplateOptions = {
     ...options,
     ...names(options.plugin),
+    ...names(options.name),
+    uiLibName: `${options.widgetName}-ui`,
+    storeLibName: `${options.widgetName}-store`,
     offsetFromRoot: offsetFromRoot(options.pluginRoot),
     template: '',
   };
@@ -111,6 +114,8 @@ function addFiles(host: Tree, options: NormalizedSchema) {
   const widgetTemplateOptions = {
     ...options,
     ...names(options.name),
+    uiLibName: `${options.widgetName}-ui`,
+    storeLibName: `${options.widgetName}-store`,
     offsetFromRoot: offsetFromRoot(options.pluginRoot),
     template: '',
   };

@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux';
-import {<%=classComponent%>EntitySelector} from '@<%=npmScope%>/store'
+import {<%=classComponent%>EntitySelector} from "../store";
 import PropTypes, {InferProps} from 'prop-types';
 import {<%=className%>TitleView} from "./<%=fileName%>-title.view";
 
