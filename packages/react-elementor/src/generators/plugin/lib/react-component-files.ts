@@ -6,17 +6,20 @@ import * as path from 'path';
 
 const ROOT_UI_LIB = 'ui'
 
-export async function reactComponentFiles(host: Tree, options: ElementorNormalizedSchema){
-  const libRoot = `${getWorkspaceLayout(host).libsDir}/ui/src`;
+export async function reactComponentFiles(host: Tree, options: ElementorNormalizedSchema, projectName: string) {
+  const uiLibName = `${projectName}-${ROOT_UI_LIB}`
+  const libRoot = `${getWorkspaceLayout(host).libsDir}/${uiLibName}/src`;
+
   const templateOptions = {
     ...options,
     ...names(options.name),
+    uiLibName,
     offsetFromRoot: offsetFromRoot(libRoot),
     template: '',
     dot: '.'
   };
 
-
+  console.log('libraryGenerator')
   await libraryGenerator(host,
     {
       linter: Linter.EsLint,
@@ -24,12 +27,13 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
       skipTsConfig: false,
       style: 'none',
       unitTestRunner: 'none',
-      ...names(ROOT_UI_LIB),
-      name: ROOT_UI_LIB
-    } )
+      ...names(uiLibName),
+      name: uiLibName
+    })
+  console.log('storybookConfigurationGenerator')
 
   await storybookConfigurationGenerator(host,{
-    name: ROOT_UI_LIB,
+    name: uiLibName,
     configureCypress: false,
     generateStories: false,
     generateCypressSpecs: false,
@@ -37,37 +41,40 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     tsConfiguration: false,
     configureTestRunner: false
   })
+  console.log('componentGenerator')
 
   await componentGenerator(host, {
     style: 'none',
     ...names(`${options.name}-title`),
     name: `${options.name}-title`,
-    project: ROOT_UI_LIB,
+    project: uiLibName,
     export: true,
-    skipTests:true
+    skipTests: true
   })
+  console.log('componentGenerator 2')
 
   await componentGenerator(host, {
     style: 'none',
     ...names(`${options.name}-input`),
     name: `${options.name}-input`,
-    project: ROOT_UI_LIB,
+    project: uiLibName,
     export: true,
-    skipTests:true
+    skipTests: true
   })
+  console.log('componentGenerator 3')
 
   await componentGenerator(host, {
     style: 'none',
     ...names(`web-component-wrapper`),
     name: `web-component-wrapper`,
-    project: ROOT_UI_LIB,
+    project: uiLibName,
     export: true,
-    skipTests:true
+    skipTests: true
   })
 
   await generateFiles(
     host,
-    path.join(__dirname, '../libs/ui'),
+    path.join(__dirname, `../libs/ui`),
     libRoot,
     templateOptions,
   );

@@ -16,7 +16,6 @@ import {runTasksInSerial} from "@nrwl/workspace/src/utilities/run-tasks-in-seria
 import {assertValidStyle, SupportedStyles} from "@nrwl/react";
 import {addProject} from "@nrwl/react/src/generators/application/lib/add-project";
 import widgetGenerator from '../../generators/widget/generator'
-import {generateReduxFiles} from "./lib/redux-files";
 import {reactComponentFiles} from "./lib/react-component-files";
 
 export interface ElementorNormalizedSchema extends ElementorPluginGeneratorSchema {
@@ -66,13 +65,15 @@ function normalizeOptions(
   };
 }
 
-function addFiles(host: Tree, options: ElementorNormalizedSchema) {
+function addFiles(host: Tree, options: ElementorNormalizedSchema, projectName: string) {
   const templateOptions = {
     ...options,
     ...names(options.name),
+    uiLibName: `${projectName}-ui`,
+    storeLibName: `${projectName}-store`,
     offsetFromRoot: offsetFromRoot(options.appProjectRoot),
     template: '',
-    tmpl:'',
+    tmpl: '',
     dot: '.'
   };
 
@@ -101,7 +102,7 @@ export async function pluginGenerator(
     executor: '@betrue/react-elementor:build',
     options: {
       plugin: normalizedOptions.projectName,
-      replaceFilePattern:'.esm.js'
+      replaceFilePattern: '.esm.js'
     }
   }
 
@@ -117,7 +118,7 @@ export async function pluginGenerator(
   }
 
   updateProjectConfiguration(host, normalizedOptions.projectName, projectConfig)
-  addFiles(host, normalizedOptions);
+  addFiles(host, normalizedOptions, normalizedOptions.projectName);
   const widgetDescription = 'simple demo widget generated on project init'
   normalizedOptions.directory = undefined
   await widgetGenerator(host,
@@ -139,9 +140,8 @@ export async function pluginGenerator(
     plugin: normalizedOptions.projectName
   })
 
-  await reactComponentFiles(host, normalizedOptions)
-
-  await generateReduxFiles(host, normalizedOptions)
+  await reactComponentFiles(host, normalizedOptions, normalizedOptions.projectName)
+  console.log('elementorInitGenerator')
 
   const elementorTask = await elementorInitGenerator(host, {
     ...options,

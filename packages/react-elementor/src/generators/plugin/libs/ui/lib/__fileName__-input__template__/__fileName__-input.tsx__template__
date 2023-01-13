@@ -1,4 +1,4 @@
-import {update<%=classComponent%>Entity} from '@<%=npmScope%>/store';
+import {update<%=classComponent%>Entity} from '../store';
 import React, {FormEvent} from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes, {InferProps} from 'prop-types';
