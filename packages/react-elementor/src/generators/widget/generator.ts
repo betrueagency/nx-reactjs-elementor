@@ -1,15 +1,18 @@
 import {
   addProjectConfiguration,
   formatFiles,
-  generateFiles, getProjects,
-  getWorkspaceLayout, logger,
+  generateFiles,
+  getProjects,
+  getWorkspaceLayout,
+  logger,
   updateProjectConfiguration,
   names,
   offsetFromRoot,
-  Tree, ProjectConfiguration,
-} from '@nrwl/devkit';
+  Tree,
+  ProjectConfiguration,
+} from '@nx/devkit';
 import * as path from 'path';
-import {ElementorWidgetGeneratorSchema} from './schema';
+import { ElementorWidgetGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends ElementorWidgetGeneratorSchema {
   pluginName: string;
@@ -33,7 +36,6 @@ function normalizeOptions(
   host: Tree,
   options: ElementorWidgetGeneratorSchema
 ): NormalizedSchema {
-
   const plugin = getProjects(host).get(options.plugin);
   if (!plugin) {
     logger.error(
@@ -44,16 +46,15 @@ function normalizeOptions(
 
   //plugin options
   const pluginNames = names(options.plugin);
-  const pluginDirectory = plugin.root
-  const pluginName = options.plugin
-  const pluginFileName = pluginNames.fileName
-  const pluginConstantName = pluginNames.constantName
-  const pluginClassName = pluginNames.className
-  const pluginRoot = plugin.root
+  const pluginDirectory = plugin.root;
+  const pluginName = options.plugin;
+  const pluginFileName = pluginNames.fileName;
+  const pluginConstantName = pluginNames.constantName;
+  const pluginClassName = pluginNames.className;
+  const pluginRoot = plugin.root;
   const parsedAttributes = options.attributes?.split(',').map((s) => s.trim())
     ? options.attributes?.split(',').map((s) => s.trim())
     : [];
-
 
   //widget options
   const widgetNames = names(options.name);
@@ -71,14 +72,16 @@ function normalizeOptions(
   const widgetsConstants = [widgetConstantName];
   const widgetsRoot = `${plugin.root}/widgets`;
 
-  const existingWidgets = host.children(widgetsRoot).filter((file) => !host.isFile(`${widgetsRoot}/${file}`));
+  const existingWidgets = host
+    .children(widgetsRoot)
+    .filter((file) => !host.isFile(`${widgetsRoot}/${file}`));
   existingWidgets.forEach((name) => {
     if (widgetConstantName !== names(name).constantName) {
       widgets.push(name);
       widgetsConstants.push(names(name).constantName);
     }
   });
-  logger.info(`${widgets}`)
+  logger.info(`${widgets}`);
   return {
     ...options,
     pluginName,
@@ -95,12 +98,11 @@ function normalizeOptions(
     widgetClassName,
     widgetRoot,
     parsedTags,
-    parsedAttributes
+    parsedAttributes,
   };
 }
 
 function addFiles(host: Tree, options: NormalizedSchema) {
-
   const pluginTemplateOptions = {
     ...options,
     ...names(options.plugin),
@@ -140,20 +142,21 @@ export default async function (
   options: ElementorWidgetGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(host, options);
-  const widgetProject = getProjects(host).get(normalizedOptions.widgetName)
+  const widgetProject = getProjects(host).get(normalizedOptions.widgetName);
   const projectConfig = {
     root: normalizedOptions.widgetRoot,
     projectType: 'application',
     sourceRoot: `${normalizedOptions.widgetRoot}`,
     targets: {},
     tags: normalizedOptions.parsedTags,
-  } as ProjectConfiguration
+  } as ProjectConfiguration;
   if (!widgetProject) {
     addProjectConfiguration(host, normalizedOptions.widgetName, projectConfig);
   } else {
-    updateProjectConfiguration(host,
-      normalizedOptions.widgetName,
-      {...widgetProject, ...projectConfig})
+    updateProjectConfiguration(host, normalizedOptions.widgetName, {
+      ...widgetProject,
+      ...projectConfig,
+    });
   }
 
   addFiles(host, normalizedOptions);

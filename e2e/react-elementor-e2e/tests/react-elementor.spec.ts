@@ -1,17 +1,15 @@
 import {
   checkFilesExist,
-  ensureNxProject, readFile,
+  ensureNxProject,
+  readFile,
   runNxCommandAsync,
   uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 
 describe('react-elementor:plugin e2e', () => {
   it('should create react-elementor', async () => {
     const plugin = uniq('react-elementor');
-    ensureNxProject(
-      '@betrue/react-elementor',
-      'dist/packages/react-elementor'
-    );
+    ensureNxProject('@betrue/react-elementor', 'dist/packages/react-elementor');
     await runNxCommandAsync(
       `generate @betrue/react-elementor:plugin ${plugin}`
     );
@@ -20,10 +18,10 @@ describe('react-elementor:plugin e2e', () => {
     expect(() =>
       checkFilesExist(
         `apps/${plugin}/src/index.html`,
-        `dist/elementor/${plugin}/dist/main.js`)
+        `dist/elementor/${plugin}/dist/main.js`
+      )
     ).not.toThrow();
   }, 120000);
-
 
   /**describe('--tags', () => {
     it('should add tags to nx.json', async () => {
@@ -50,17 +48,12 @@ describe('react-elementor:plugin e2e', () => {
       await runNxCommandAsync(
         `generate @betrue/react-elementor:plugin ${plugin} `
       );
-      await runNxCommandAsync(
-        `build ${plugin}`
-      );
-      await runNxCommandAsync(
-        `plugin ${plugin} `
-      );
+      await runNxCommandAsync(`build ${plugin}`);
+      await runNxCommandAsync(`plugin ${plugin} `);
       const file = readFile(`dist/elementor/${plugin}/class-widgets.php`);
       expect(file.includes('noVersion')).toEqual(true);
     }, 120000);
   });
-
 
   describe('react-elementor:widget', () => {
     it('should create widget in the specified plugin', async () => {
@@ -88,9 +81,9 @@ describe('react-elementor:plugin e2e', () => {
       expect(() =>
         checkFilesExist(
           `apps/${plugin}/widgets/${widget2}/widget.php`,
-          `apps/${plugin}/widgets/${widget1}/widget.php`)
+          `apps/${plugin}/widgets/${widget1}/widget.php`
+        )
       ).not.toThrow();
     }, 120000);
-
   });
 });

@@ -1,13 +1,27 @@
-import {generateFiles, getWorkspaceLayout, names, offsetFromRoot, Tree} from "@nrwl/devkit";
-import {ElementorNormalizedSchema} from "../generator";
-import {componentGenerator, libraryGenerator, storybookConfigurationGenerator} from "@nrwl/react";
-import {Linter} from "@nrwl/linter";
+import {
+  generateFiles,
+  getWorkspaceLayout,
+  names,
+  offsetFromRoot,
+  Tree,
+} from '@nx/devkit';
+import { ElementorNormalizedSchema } from '../generator';
+import {
+  componentGenerator,
+  libraryGenerator,
+  storybookConfigurationGenerator,
+} from '@nx/react';
+import { Linter } from '@nx/eslint';
 import * as path from 'path';
 
-const ROOT_UI_LIB = 'ui'
+const ROOT_UI_LIB = 'ui';
 
-export async function reactComponentFiles(host: Tree, options: ElementorNormalizedSchema, projectName: string) {
-  const uiLibName = `${projectName}-${ROOT_UI_LIB}`
+export async function reactComponentFiles(
+  host: Tree,
+  options: ElementorNormalizedSchema,
+  projectName: string
+) {
+  const uiLibName = `${projectName}-${ROOT_UI_LIB}`;
   const libRoot = `${getWorkspaceLayout(host).libsDir}/${uiLibName}/src`;
 
   const templateOptions = {
@@ -16,32 +30,31 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     uiLibName,
     offsetFromRoot: offsetFromRoot(libRoot),
     template: '',
-    dot: '.'
+    dot: '.',
   };
 
-  console.log('libraryGenerator')
-  await libraryGenerator(host,
-    {
-      linter: Linter.EsLint,
-      skipFormat: false,
-      skipTsConfig: false,
-      style: 'none',
-      unitTestRunner: 'none',
-      ...names(uiLibName),
-      name: uiLibName
-    })
-  console.log('storybookConfigurationGenerator')
-
-  await storybookConfigurationGenerator(host,{
+  console.log('libraryGenerator');
+  await libraryGenerator(host, {
+    linter: Linter.EsLint,
+    skipFormat: false,
+    skipTsConfig: false,
+    style: 'none',
+    unitTestRunner: 'none',
+    ...names(uiLibName),
     name: uiLibName,
+  });
+  console.log('storybookConfigurationGenerator');
+
+  await storybookConfigurationGenerator(host, {
+    project: uiLibName,
     configureCypress: false,
     generateStories: false,
     generateCypressSpecs: false,
     js: false,
     tsConfiguration: false,
-    configureTestRunner: false
-  })
-  console.log('componentGenerator')
+    interactionTests: false,
+  });
+  console.log('componentGenerator');
 
   await componentGenerator(host, {
     style: 'none',
@@ -49,9 +62,9 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     name: `${options.name}-title`,
     project: uiLibName,
     export: true,
-    skipTests: true
-  })
-  console.log('componentGenerator 2')
+    skipTests: true,
+  });
+  console.log('componentGenerator 2');
 
   await componentGenerator(host, {
     style: 'none',
@@ -59,9 +72,9 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     name: `${options.name}-input`,
     project: uiLibName,
     export: true,
-    skipTests: true
-  })
-  console.log('componentGenerator 3')
+    skipTests: true,
+  });
+  console.log('componentGenerator 3');
 
   await componentGenerator(host, {
     style: 'none',
@@ -69,13 +82,13 @@ export async function reactComponentFiles(host: Tree, options: ElementorNormaliz
     name: `web-component-wrapper`,
     project: uiLibName,
     export: true,
-    skipTests: true
-  })
+    skipTests: true,
+  });
 
   await generateFiles(
     host,
     path.join(__dirname, `../libs/ui`),
     libRoot,
-    templateOptions,
+    templateOptions
   );
 }

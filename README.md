@@ -65,9 +65,9 @@ if you already have and Wordpress instance with elementor installed, you juste n
 
 Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
 
-For development purpose, You can use storybook to live edit and test your react component [`http://localhost:4400`](http://localhost:4400)
+For development purpose, You can use storybook to live edit and test your react component [`https://localhost:4400`](http://localhost:4400)
 
-    npx nx run ui:storybook
+    NODE_OPTIONS=--openssl-legacy-provider npx nx run my-project-ui:storybook
 
 ![image](https://raw.githubusercontent.com/betrueagency/nx-reactjs-elementor/main/img/storybook.png)
 
@@ -75,11 +75,18 @@ On build is important to pass the release version to make force resources update
 
     NX_RELEASE_VERSION=xxxx npx nx pkg my-project
 
+you will find the output in dist/elementor/my-project, all you have to do is zip it and install it like any wordpress plugin
+
+    cd dist/elementor/
+    zip -r my-project.zip my-project/
+
+#### !!! Warning for MacOS users: do not use the right click to zip the folder, since WordPress 6.4.3 it generates an Incompatible Archive Error.
+
 ## Try it using docker
 
 If you have already installed docker and docker-compose you can try the elementor plugin in wordpress
 
-    npx nx pkg my-project // to package the plugin into dist/     `      
+    npx nx pkg my-project    `      
 
 start docker-compose
 

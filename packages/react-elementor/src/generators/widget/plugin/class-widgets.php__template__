@@ -93,9 +93,9 @@ class Widgets
     public function widget_scripts()
     {
 
-             wp_register_script('<%= pluginFileName %>-script-vendor', plugins_url('dist/vendor.js', ELEMENTOR_<%= constantName %>), array(), 'xxVERSIONxx', true);
-             wp_register_script('<%= pluginFileName %>-script-main', plugins_url('dist/main.js', ELEMENTOR_<%= constantName %>), array(), 'xxVERSIONxx', true);
-             wp_register_script('<%= pluginFileName %>-script-runtime', plugins_url('dist/runtime.js', ELEMENTOR_<%= constantName %>), array(), 'xxVERSIONxx', true);
+             wp_register_script('<%= pluginFileName %>-script-vendor', plugins_url('dist/vendor.js', __FILE__), array(), 'xxVERSIONxx', true);
+             wp_register_script('<%= pluginFileName %>-script-main', plugins_url('dist/main.js', __FILE__), array(), 'xxVERSIONxx', true);
+             wp_register_script('<%= pluginFileName %>-script-runtime', plugins_url('dist/runtime.js', __FILE__), array(), 'xxVERSIONxx', true);
 
     }
 

@@ -87,7 +87,7 @@
 nx g @betrue/react-elementor:addWidget my-cool-elementor-widget --plugin=<%=fileName%>
 
 # Add a component
-nx g @nrwl/react:component xyz --project=<%=fileName%></pre>
+nx g @nx/react:component xyz --project=<%=fileName%></pre>
       </details>
       <details>
         <summary>View dependency graph</summary>
