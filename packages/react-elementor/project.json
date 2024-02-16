@@ -1,0 +1,53 @@
+{
+  "name": "react-elementor",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react-elementor/src",
+  "projectType": "application",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/react-elementor"],
+      "options": {
+        "jestConfig": "packages/react-elementor/jest.config.ts"
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/react-elementor",
+        "tsConfig": "packages/react-elementor/tsconfig.lib.json",
+        "packageJson": "packages/react-elementor/package.json",
+        "main": "packages/react-elementor/src/index.ts",
+        "assets": [
+          "packages/react-elementor/*.md",
+          {
+            "input": "./packages/react-elementor/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/react-elementor/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/react-elementor",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/react-elementor",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}

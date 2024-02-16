@@ -1,12 +1,13 @@
 {
   "name": "@betrue/react-elementor",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "homepage": "https://github.com/betrueagency/nx-reactjs-elementor",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
   "peerDependencies": {
     "fs-extra": "10.1.0",
-    "@nrwl/react": "^15.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0"
+    "@nx/webpack": "^18.0.0 || ^17.0.0 || ^16.0.0 || ^15.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0",
+    "@nx/react": "^18.0.0 || ^17.0.0 || ^16.0.0 || ^15.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0"
   }
 }

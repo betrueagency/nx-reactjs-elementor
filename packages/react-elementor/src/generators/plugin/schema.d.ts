@@ -1,7 +1,7 @@
-import {SupportedStyles} from "@nrwl/react";
-import {NormalizedSchema} from "@nrwl/react/src/generators/application/schema";
+import { SupportedStyles } from '@nx/react';
+import { NormalizedSchema } from '@nx/react/src/generators/application/schema';
 
-export interface ElementorPluginGeneratorSchema  extends NormalizedSchema {
+export interface ElementorPluginGeneratorSchema extends NormalizedSchema {
   name: string;
   tags?: string;
   pluginDescription?: string;
@@ -18,5 +18,5 @@ export interface ElementorPluginGeneratorSchema  extends NormalizedSchema {
   style: SupportedStyles;
   babelJest: boolean;
   e2eTestRunner: 'cypress' | 'none';
-  npmScope: string
+  npmScope: string;
 }
