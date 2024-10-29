@@ -4,6 +4,8 @@ Nx plugin to generate Wordpress plugin that enrich Elementor with ReactJS widget
 All widget are wrapped in web component that will act as a proxy between elementor and react.
 all web components uses shadow dom to prevent css overload.
 
+<img src="https://github.com/SofianBdr/img-react-elementor/blob/main/modele.drawio.png?raw=true" alt="Description de l'image" style="display: block; margin: auto;">
+
 State between component is maintained using Redux. but you can use the provider of your choice.
 ![image](https://raw.githubusercontent.com/betrueagency/nx-reactjs-elementor/main/img/elementor-widgets.jpg)
 
@@ -22,9 +24,9 @@ Create a new nx workspace (if doesn't exist)
     
     >  NX   Let's create a new workspace [https://nx.dev/getting-started/intro]
     
-    ✔ Choose your style                     · integrated
-    ✔ What to create in the new workspace   · apps
-    ✔ Enable distributed caching to make your CI faster · No
+    ✔ Which stack do you want to use?   None:          Configures a TypeScript/JavaScript project with minimal structure
+    ✔ Choose the type of repo           Nx creates a monorepo that contains multiple projects.
+    ✔ Skip Nx Cloud
 
 
 
@@ -59,17 +61,17 @@ Each new widget has.
 * MUST be declared in apps/my-project/src/app/my-projet.ts in order to be wrapped in a web component
 * MUST have generated elementor widget [@betrue/react-elementor:addWidget](#add-a-new-widget-to-an-existing-plugin)
 
-if you already have and Wordpress instance with elementor installed, you juste need to build the wordpress plugin
-
-     npx nx pkg my-project
-
-Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
-
 For development purpose, You can use storybook to live edit and test your react component [`https://localhost:4400`](http://localhost:4400)
 
     NODE_OPTIONS=--openssl-legacy-provider npx nx run my-project-ui:storybook
 
 ![image](https://raw.githubusercontent.com/betrueagency/nx-reactjs-elementor/main/img/storybook.png)
+
+if you already have and Wordpress instance with elementor installed, you juste need to build the wordpress plugin
+
+     npx nx pkg my-project
+
+Zip and upload using Wordpress plugin management the content of `dist/element/my-project`. that's all you can now try to use theses widgets into elementor :)
 
 On build is important to pass the release version to make force resources update and reset cache
 
