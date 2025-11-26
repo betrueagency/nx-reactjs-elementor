@@ -242,6 +242,97 @@ This ensures that:
 - MUI components render correctly inside Shadow DOM
 - Your custom theme is applied consistently
 
+## Shadow DOM Caveats
+
+This plugin uses Shadow DOM to isolate widget styles from WordPress/Elementor CSS. While this provides excellent encapsulation, there are important limitations to be aware of:
+
+### 1. JavaScript DOM Access
+
+Elements inside the Shadow DOM **cannot** be accessed using standard DOM methods from the main document:
+
+```javascript
+// ❌ This will NOT work - returns null
+document.getElementById('my-widget-element');
+document.querySelector('.my-widget-class');
+
+// ✅ This works - access via the shadow root
+const widget = document.querySelector('my-project-input');
+const shadowRoot = widget.shadowRoot;
+shadowRoot.getElementById('my-widget-element');
+shadowRoot.querySelector('.my-widget-class');
+```
+
+### 2. CSS Selectors Across Boundaries
+
+CSS selectors **cannot** cross the Shadow DOM boundary. You cannot style shadow DOM elements based on classes or states of elements outside the shadow DOM:
+
+```css
+/* ❌ This will NOT work */
+article#post-261.hide-filename div#my-widget {
+  visibility: hidden;
+}
+
+/* The selector cannot "see" inside the shadow DOM */
+```
+
+**Workarounds:**
+
+**Option 1: Use CSS Custom Properties (recommended)**
+
+CSS custom properties (variables) DO cross shadow DOM boundaries:
+
+```css
+/* In your WordPress theme or Elementor custom CSS */
+article#post-261.hide-filename {
+  --widget-visibility: hidden;
+}
+
+/* In your React component styles */
+.my-widget {
+  visibility: var(--widget-visibility, visible);
+}
+```
+
+**Option 2: Use JavaScript to communicate state**
+
+Pass data via attributes or use custom events:
+
+```typescript
+// In your React component
+function MyWidget({ hidden }: { hidden?: string }) {
+  return (
+    <div style={{ visibility: hidden === 'true' ? 'hidden' : 'visible' }}>
+      {/* content */}
+    </div>
+  );
+}
+
+// Set attribute from outside
+document.querySelector('my-project-input')?.setAttribute('hidden', 'true');
+```
+
+**Option 3: Use the Redux store**
+
+For complex state management, use the shared Redux store to coordinate between widgets:
+
+```typescript
+// Dispatch from anywhere
+store.dispatch(setWidgetVisibility({ widgetId: 'my-widget', visible: false }));
+
+// React component reads from store
+const visible = useSelector(selectWidgetVisibility('my-widget'));
+```
+
+### 3. External Stylesheets
+
+External stylesheets and global CSS do not apply inside Shadow DOM. All styles must be:
+- Defined within the React component (CSS-in-JS, styled-components)
+- Injected into the shadow root (handled automatically by Emotion cache)
+
+### 4. Form Participation
+
+Form elements inside Shadow DOM don't automatically participate in parent forms. If you need form integration, consider using the [ElementInternals API](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) or handling form submission via JavaScript.
+
 ## Testing with Docker
 
 If you have Docker installed, you can test the Elementor plugin locally:
