@@ -1,4 +1,4 @@
-import {CustomProviders, <%=className%>Input, <%=className%>Title, WebComponentWrapper,} from '@<%=npmScope%>/<%=uiLibName%>';
+import {CustomProviders, <%=className%>Input, <%=className%>Title, WebComponentWrapper,} from '<%= npmScope ? `@${npmScope}/${uiLibName}` : uiLibName %>';
 
 WebComponentWrapper(
   '<%= fileName %>-input',

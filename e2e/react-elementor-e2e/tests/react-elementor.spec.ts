@@ -17,7 +17,7 @@ describe('react-elementor:plugin e2e', () => {
     await runNxCommandAsync(`pkg ${plugin}`);
     expect(() =>
       checkFilesExist(
-        `apps/${plugin}/src/index.html`,
+        `${plugin}/src/index.html`,
         `dist/elementor/${plugin}/dist/main.js`
       )
     ).not.toThrow();
@@ -80,8 +80,8 @@ describe('react-elementor:plugin e2e', () => {
 
       expect(() =>
         checkFilesExist(
-          `apps/${plugin}/widgets/${widget2}/widget.php`,
-          `apps/${plugin}/widgets/${widget1}/widget.php`
+          `${plugin}/widgets/${widget2}/widget.php`,
+          `${plugin}/widgets/${widget1}/widget.php`
         )
       ).not.toThrow();
     }, 120000);

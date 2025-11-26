@@ -35,13 +35,22 @@ export default async function runExecutor(
   options: BuildExecutorSchema,
   context: ExecutorContext
 ) {
+  // Get the project root from the context
+  const projectName = context.projectName;
+  const projectRoot = context.projectsConfigurations?.projects?.[projectName]?.root
+    || context.workspace?.projects?.[projectName]?.root
+    || options.plugin;
+
+  // Get the output path from the build target configuration
+  const buildOutputPath = `dist/${projectRoot}`;
+
   await copySync(
-    `${context.root}/${options.plugin}`,
+    `${context.root}/${projectRoot}`,
     `${context.root}/dist/elementor/${options.plugin}`
   );
 
   await copySync(
-    `${context.root}/dist/${options.plugin}`,
+    `${context.root}/${buildOutputPath}`,
     `${context.root}/dist/elementor/${options.plugin}/dist`
   );
   const matchMain = RegExp('main\\.[^\\.]+\\.js', 'g');

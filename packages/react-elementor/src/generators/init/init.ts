@@ -27,6 +27,7 @@ function updateDependencies(host: Tree) {
       'react-to-webcomponent': '^1.7.2',
       'prop-types': '15.8.1',
       'react-dom': reactDomVersion,
+      'ajv': '^8.12.0',
     },
     {
       '@betrue/react-elementor': 'latest',

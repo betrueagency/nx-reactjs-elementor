@@ -7,7 +7,11 @@ import {
   Tree,
   convertNxGenerator,
   updateProjectConfiguration,
-  readProjectConfiguration, runTasksInSerial, ensurePackage, GeneratorCallback,
+  readProjectConfiguration,
+  runTasksInSerial,
+  ensurePackage,
+  GeneratorCallback,
+  readJson,
 } from '@nx/devkit';
 
 import * as path from 'path';
@@ -17,10 +21,23 @@ import {assertValidStyle, reactInitGenerator, SupportedStyles, withReact} from '
 import {addProject} from '@nx/react/src/generators/application/lib/add-project';
 import widgetGenerator from '../../generators/widget/generator';
 import {reactComponentFiles} from './lib/react-component-files';
-import {getNpmScope} from "@nx/workspace/src/utilities/get-import-path";
 import {nxVersion} from "nx/src/utils/versions";
 import {composePlugins, withNx} from "@nx/webpack";
 import {createApplicationFiles} from "@nx/react/src/generators/application/lib/create-application-files";
+
+/**
+ * Gets the npm scope from the workspace package.json
+ * Replaces deprecated @nx/workspace/src/utilities/get-import-path import
+ */
+function getNpmScope(tree: Tree): string {
+  const { name } = tree.exists('package.json')
+    ? readJson<{ name?: string }>(tree, 'package.json')
+    : { name: null };
+  if (name?.startsWith('@')) {
+    return name.split('/')[0].substring(1);
+  }
+  return '';
+}
 
 export interface ElementorNormalizedSchema
   extends ElementorPluginGeneratorSchema {
@@ -57,8 +74,9 @@ function normalizeOptions(
   options.classComponent = options.classComponent ?? false;
   options.unitTestRunner = options.unitTestRunner ?? 'jest';
   options.e2eTestRunner = options.e2eTestRunner ?? 'cypress';
+  const npmScope = getNpmScope(host);
   return {
-    npmScope: getNpmScope(host).toLowerCase(),
+    npmScope: npmScope ? npmScope.toLowerCase() : '',
     ...options,
     appProjectRoot: appProjectRoot,
     projectName,
