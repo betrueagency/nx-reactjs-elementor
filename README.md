@@ -162,6 +162,299 @@ import {
 WebComponentWrapper('my-project-my-widget', MyWidget, CustomProviders);
 ```
 
+## Working with Attributes
+
+Attributes allow Elementor users to customize your widgets from the WordPress admin panel. They are passed from Elementor (PHP) to your React component via web component attributes.
+
+### Creating a Widget with Attributes
+
+```bash
+npx nx g @betrue/react-elementor:addWidget \
+  --name user-card \
+  --plugin my-project \
+  --attributes title,subtitle,imageUrl \
+  --widgetDescription "Display a user card"
+```
+
+This generates:
+
+1. **React component** (`my-project-ui/src/lib/user-card/user-card.tsx`)
+2. **Elementor widget** (`my-project/widgets/user-card/widget.php`)
+
+### How Attributes Flow
+
+```
+Elementor Admin → widget.php → Web Component → React Props
+```
+
+1. **Elementor Admin**: User configures `title`, `subtitle`, `imageUrl` in the widget settings
+2. **widget.php**: Renders `<my-project-user-card title="..." subtitle="..." imageUrl="..."></my-project-user-card>`
+3. **Web Component**: Passes attributes to React component as props
+4. **React Component**: Receives `{ title, subtitle, imageUrl }` as props
+
+### PHP Widget Structure (widget.php)
+
+The generator creates controls for each attribute:
+
+```php
+protected function _register_controls()
+{
+    $this->start_controls_section(
+        'section_content',
+        array(
+            'label' => __('Content', 'elementor-my-project'),
+        )
+    );
+
+    // One control per attribute
+    $this->add_control(
+        'title',
+        array(
+            'label' => __('Title', 'elementor-my-project'),
+            'type' => Controls_Manager::TEXT,
+            'default' => __('My title', 'elementor-my-project'),
+        )
+    );
+
+    $this->add_control(
+        'subtitle',
+        array(
+            'label' => __('Subtitle', 'elementor-my-project'),
+            'type' => Controls_Manager::TEXT,
+            'default' => __('My subtitle', 'elementor-my-project'),
+        )
+    );
+
+    $this->add_control(
+        'imageUrl',
+        array(
+            'label' => __('Image URL', 'elementor-my-project'),
+            'type' => Controls_Manager::TEXT,
+            'default' => __('', 'elementor-my-project'),
+        )
+    );
+
+    $this->end_controls_section();
+}
+
+protected function render()
+{
+    $settings = $this->get_settings_for_display();
+    $this->add_render_attribute(
+        'user-card-wrapper',
+        [
+            'title' => wp_kses($settings['title'], array()),
+            'subtitle' => wp_kses($settings['subtitle'], array()),
+            'imageUrl' => wp_kses($settings['imageUrl'], array()),
+        ]
+    );
+    ?>
+    <my-project-user-card <?php echo $this->get_render_attribute_string('user-card-wrapper'); ?>></my-project-user-card>
+    <?php
+}
+```
+
+### React Component with Props
+
+Define your React component to accept the attributes as props:
+
+```tsx
+// my-project-ui/src/lib/user-card/user-card.tsx
+import React from 'react';
+import PropTypes from 'prop-types';
+
+export interface UserCardProps {
+  title?: string;
+  subtitle?: string;
+  imageUrl?: string;
+}
+
+export function UserCard({ title, subtitle, imageUrl }: UserCardProps) {
+  return (
+    <div className="user-card">
+      {imageUrl && <img src={imageUrl} alt={title} />}
+      <h2>{title}</h2>
+      <p>{subtitle}</p>
+    </div>
+  );
+}
+
+// PropTypes are used by WebComponentWrapper to map attributes
+UserCard.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  imageUrl: PropTypes.string,
+};
+
+export default UserCard;
+```
+
+### Advanced Control Types
+
+You can customize the Elementor controls in `widget.php` to use different input types:
+
+```php
+// Text input (default)
+$this->add_control('title', [
+    'label' => __('Title', 'elementor-my-project'),
+    'type' => Controls_Manager::TEXT,
+    'default' => 'Default title',
+]);
+
+// Textarea
+$this->add_control('description', [
+    'label' => __('Description', 'elementor-my-project'),
+    'type' => Controls_Manager::TEXTAREA,
+    'default' => '',
+]);
+
+// Number
+$this->add_control('count', [
+    'label' => __('Count', 'elementor-my-project'),
+    'type' => Controls_Manager::NUMBER,
+    'default' => 10,
+    'min' => 1,
+    'max' => 100,
+]);
+
+// Select dropdown
+$this->add_control('size', [
+    'label' => __('Size', 'elementor-my-project'),
+    'type' => Controls_Manager::SELECT,
+    'default' => 'medium',
+    'options' => [
+        'small' => __('Small', 'elementor-my-project'),
+        'medium' => __('Medium', 'elementor-my-project'),
+        'large' => __('Large', 'elementor-my-project'),
+    ],
+]);
+
+// Color picker
+$this->add_control('backgroundColor', [
+    'label' => __('Background Color', 'elementor-my-project'),
+    'type' => Controls_Manager::COLOR,
+    'default' => '#ffffff',
+]);
+
+// Switcher (boolean)
+$this->add_control('showBorder', [
+    'label' => __('Show Border', 'elementor-my-project'),
+    'type' => Controls_Manager::SWITCHER,
+    'label_on' => __('Yes', 'elementor-my-project'),
+    'label_off' => __('No', 'elementor-my-project'),
+    'return_value' => 'yes',
+    'default' => 'no',
+]);
+
+// Image picker
+$this->add_control('image', [
+    'label' => __('Image', 'elementor-my-project'),
+    'type' => Controls_Manager::MEDIA,
+    'default' => [
+        'url' => '',
+    ],
+]);
+
+// URL input
+$this->add_control('link', [
+    'label' => __('Link', 'elementor-my-project'),
+    'type' => Controls_Manager::URL,
+    'placeholder' => __('https://your-link.com', 'elementor-my-project'),
+    'default' => [
+        'url' => '',
+    ],
+]);
+```
+
+### Widgets Without Attributes
+
+If your widget doesn't need Elementor-configurable attributes (e.g., it fetches data from an API), generate it without the `--attributes` flag:
+
+```bash
+npx nx g @betrue/react-elementor:addWidget \
+  --name data-dashboard \
+  --plugin my-project \
+  --widgetDescription "Dashboard with live data"
+```
+
+The generated `widget.php` will have an empty controls section, and your React component can manage its own state internally.
+
+### Complete Widget Creation Workflow
+
+1. **Generate the widget**:
+   ```bash
+   npx nx g @betrue/react-elementor:addWidget \
+     --name product-card \
+     --plugin my-project \
+     --attributes title,price,imageUrl,ctaText
+   ```
+
+2. **Create the React component** in `my-project-ui/src/lib/product-card/product-card.tsx`:
+   ```tsx
+   export function ProductCard({ title, price, imageUrl, ctaText }: ProductCardProps) {
+     return (
+       <Card>
+         <CardMedia image={imageUrl} />
+         <CardContent>
+           <Typography variant="h5">{title}</Typography>
+           <Typography variant="h6">${price}</Typography>
+         </CardContent>
+         <CardActions>
+           <Button>{ctaText || 'Buy Now'}</Button>
+         </CardActions>
+       </Card>
+     );
+   }
+
+   ProductCard.propTypes = {
+     title: PropTypes.string,
+     price: PropTypes.string,
+     imageUrl: PropTypes.string,
+     ctaText: PropTypes.string,
+   };
+   ```
+
+3. **Register the web component** in `my-project/src/app/my-project.ts`:
+   ```typescript
+   import { ProductCard, CustomProviders, WebComponentWrapper } from '@my-workspace/my-project-ui';
+
+   WebComponentWrapper('my-project-product-card', ProductCard, CustomProviders);
+   ```
+
+4. **Export from the UI library** in `my-project-ui/src/index.ts`:
+   ```typescript
+   export * from './lib/product-card/product-card';
+   ```
+
+5. **Create Storybook stories** for development:
+   ```tsx
+   // product-card.stories.tsx
+   import type { Meta, StoryObj } from '@storybook/react';
+   import { ProductCard } from './product-card';
+
+   const meta: Meta<typeof ProductCard> = {
+     component: ProductCard,
+     title: 'ProductCard',
+   };
+   export default meta;
+
+   export const Primary: StoryObj<typeof ProductCard> = {
+     args: {
+       title: 'Amazing Product',
+       price: '99.99',
+       imageUrl: 'https://via.placeholder.com/300',
+       ctaText: 'Add to Cart',
+     },
+   };
+   ```
+
+6. **Build and package**:
+   ```bash
+   npx nx pkg my-project
+   ```
+
+7. **Deploy** the `dist/elementor/my-project/` folder to WordPress
+
 ## CustomProviders
 
 `CustomProviders` is a React component that wraps all your widgets with the necessary providers (Redux store, MUI theme, etc.). It is located in `my-project-ui/src/lib/config/providers.tsx`.
@@ -241,97 +534,6 @@ This ensures that:
 - All widgets share the same Redux store (state is synchronized)
 - MUI components render correctly inside Shadow DOM
 - Your custom theme is applied consistently
-
-## Shadow DOM Caveats
-
-This plugin uses Shadow DOM to isolate widget styles from WordPress/Elementor CSS. While this provides excellent encapsulation, there are important limitations to be aware of:
-
-### 1. JavaScript DOM Access
-
-Elements inside the Shadow DOM **cannot** be accessed using standard DOM methods from the main document:
-
-```javascript
-// ❌ This will NOT work - returns null
-document.getElementById('my-widget-element');
-document.querySelector('.my-widget-class');
-
-// ✅ This works - access via the shadow root
-const widget = document.querySelector('my-project-input');
-const shadowRoot = widget.shadowRoot;
-shadowRoot.getElementById('my-widget-element');
-shadowRoot.querySelector('.my-widget-class');
-```
-
-### 2. CSS Selectors Across Boundaries
-
-CSS selectors **cannot** cross the Shadow DOM boundary. You cannot style shadow DOM elements based on classes or states of elements outside the shadow DOM:
-
-```css
-/* ❌ This will NOT work */
-article#post-261.hide-filename div#my-widget {
-  visibility: hidden;
-}
-
-/* The selector cannot "see" inside the shadow DOM */
-```
-
-**Workarounds:**
-
-**Option 1: Use CSS Custom Properties (recommended)**
-
-CSS custom properties (variables) DO cross shadow DOM boundaries:
-
-```css
-/* In your WordPress theme or Elementor custom CSS */
-article#post-261.hide-filename {
-  --widget-visibility: hidden;
-}
-
-/* In your React component styles */
-.my-widget {
-  visibility: var(--widget-visibility, visible);
-}
-```
-
-**Option 2: Use JavaScript to communicate state**
-
-Pass data via attributes or use custom events:
-
-```typescript
-// In your React component
-function MyWidget({ hidden }: { hidden?: string }) {
-  return (
-    <div style={{ visibility: hidden === 'true' ? 'hidden' : 'visible' }}>
-      {/* content */}
-    </div>
-  );
-}
-
-// Set attribute from outside
-document.querySelector('my-project-input')?.setAttribute('hidden', 'true');
-```
-
-**Option 3: Use the Redux store**
-
-For complex state management, use the shared Redux store to coordinate between widgets:
-
-```typescript
-// Dispatch from anywhere
-store.dispatch(setWidgetVisibility({ widgetId: 'my-widget', visible: false }));
-
-// React component reads from store
-const visible = useSelector(selectWidgetVisibility('my-widget'));
-```
-
-### 3. External Stylesheets
-
-External stylesheets and global CSS do not apply inside Shadow DOM. All styles must be:
-- Defined within the React component (CSS-in-JS, styled-components)
-- Injected into the shadow root (handled automatically by Emotion cache)
-
-### 4. Form Participation
-
-Form elements inside Shadow DOM don't automatically participate in parent forms. If you need form integration, consider using the [ElementInternals API](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) or handling form submission via JavaScript.
 
 ## Testing with Docker
 
